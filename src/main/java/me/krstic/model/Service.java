@@ -5,6 +5,8 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -16,6 +18,10 @@ public class Service {
 	private Integer id;
 	private String name;
 	private Double price;
+	@ManyToOne
+	@JoinColumn(name = "MEASUREMENT_ID")
+	private Measurement measurement;
+	private Integer status;
 	@Temporal(TemporalType.DATE)
 	private Date modifiedOn;
 	
@@ -51,6 +57,22 @@ public class Service {
 		this.price = price;
 	}
 
+	public Measurement getMeasurement() {
+		return measurement;
+	}
+
+	public void setMeasurement(Measurement measurement) {
+		this.measurement = measurement;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
 	public Date getModifiedOn() {
 		return modifiedOn;
 	}
@@ -62,6 +84,6 @@ public class Service {
 	@Override
 	public String toString() {
 		return "\"Service\": {\n\t\"id\": \"" + id + "\",\n\t\"name\": \"" + name + "\",\n\t\"price\": \"" + price
-				+ "\",\n\t\"modifiedOn\": \"" + modifiedOn + "\"\n}";
+				+ "\",\n\t\"measurement\": \"" + measurement + "\",\n\t\"status\": \"" + status + "\",\n\t\"modifiedOn\": \"" + modifiedOn + "\"\n}";
 	}
 }

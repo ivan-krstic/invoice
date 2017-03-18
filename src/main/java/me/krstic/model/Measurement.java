@@ -14,7 +14,6 @@ public class Measurement {
 	@Id
 	@GeneratedValue
 	private Integer id;
-	
 	private String name;
 	private String desciption;
 	@Temporal(TemporalType.DATE)

@@ -14,7 +14,6 @@ import me.krstic.idClass.InvoiceItemPK;
 public class InvoiceItem {
 
 	@Id
-	@GeneratedValue
 	private Integer id;
 	@ManyToOne
 	@Id
@@ -24,18 +23,14 @@ public class InvoiceItem {
 	@JoinColumn(name = "SERVICE_ID")
 	private Service service;
 	private Double quantity;
-	@ManyToOne
-	@JoinColumn(name = "MEASUREMENT_ID")
-	private Measurement measurement;
 	
 	public InvoiceItem() {
 	}
 
-	public InvoiceItem(Invoice invoice, Service service, Double quantity, Measurement measurement) {
+	public InvoiceItem(Invoice invoice, Service service, Double quantity) {
 		this.invoice = invoice;
 		this.service = service;
 		this.quantity = quantity;
-		this.measurement = measurement;
 	}
 
 	public Integer getId() {
@@ -70,17 +65,9 @@ public class InvoiceItem {
 		this.quantity = quantity;
 	}
 
-	public Measurement getMeasurement() {
-		return measurement;
-	}
-
-	public void setMeasurement(Measurement measurement) {
-		this.measurement = measurement;
-	}
-
 	@Override
 	public String toString() {
 		return "\"InvoiceItem\": {\n\t\"id\": \"" + id + "\",\n\t\"invoice\": \"" + invoice + "\",\n\t\"service\": \""
-				+ service + "\",\n\t\"quantity\": \"" + quantity + "\",\n\t\"measurement\": \"" + measurement + "\"\n}";
+				+ service + "\",\n\t\"quantity\": \"" + quantity + "\"\n}";
 	}
 }

@@ -26,7 +26,26 @@ public class Client {
 	
 	public Client() {
 	}
-
+/*
+	public Client(String name, String zipCode, String city, String street, String houseNumber, Integer status) {
+		if (name != null) {
+			this.name = name;
+		}
+		if (zipCode != null) {
+			this.zipCode = zipCode;
+		}
+		if (city != null) {
+			this.city = city;
+		}
+		if (street != null) {
+			this.street = street;
+		}
+		if (houseNumber != null) {
+			this.houseNumber = houseNumber;
+		}
+		this.status = status;
+	}
+*/
 	public Client(String name, String zipCode, String city, String street, String houseNumber, Integer status) {
 		this.name = name;
 		this.zipCode = zipCode;
@@ -35,7 +54,7 @@ public class Client {
 		this.houseNumber = houseNumber;
 		this.status = status;
 	}
-
+	
 	public Integer getId() {
 		return id;
 	}

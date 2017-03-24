@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<link rel="stylesheet" media="screen" th:href="@{/css/bootstrap.min.css}" />
+		<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+		<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+	</head>
+	<body>
+		<div th:replace="fragments/header :: header">
+			<!-- ============================================================================ -->
+			<!-- This content is only used for static prototyping purposes (natural templates)-->
+			<!-- and is therefore entirely optional, as this markup fragment will be included -->
+			<!-- from "fragments/header.html" at runtime.                                     -->
+			<!-- ============================================================================ -->
+			<div class="navbar navbar-inverse navbar-fixed-top">
+				<div class="container">
+					<div class="navbar-header">
+						<a class="navbar-brand" href="#">Static header</a>
+					</div>
+					<div class="navbar-collapse collapse">
+						<ul class="nav navbar-nav">
+							<li class="active"><a href="#">Home</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="page-header">
+				
+				<div class="row">
+					<div class="col-lg-12">
+						 <div class="page-header">
+							<h1 id="client">Client</h1>
+						</div>
+					</div>
+				</div>
+				
+				<form class="form-horizontal page-header" th:action="@{/addClient}" th:object="${clientAddForm}" method="post">
+					<fieldset>
+						<legend>Add Client</legend>
+						<div class="col-lg-6">
+							<div class="form-group">
+								<label for="inputName" class="col-lg-6 control-label">Name</label>
+								<div class="col-lg-6">
+									<input class="form-control" id="inputName" type="text" th:field="*{name}" th:placeholder="${#strings.isEmpty(name) ? 'Name' : name}" />
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="form-group">
+								<label for="inputZipCode" class="col-lg-6 control-label">Zip Code</label>
+								<div class="col-lg-6">
+									<input class="form-control" id="inputZipCode" type="text" th:field="*{zipCode}" th:placeholder="${#strings.isEmpty(zipCode) ? 'Zip Code' : zipCode}" />
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="form-group">
+								<label for="inputCity" class="col-lg-6 control-label">City</label>
+								<div class="col-lg-6">
+									<input class="form-control" id="inputCity" type="text" th:field="*{city}" th:placeholder="${#strings.isEmpty(city) ? 'City' : city}" />
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="form-group">
+								<label for="inputStreet" class="col-lg-6 control-label">Street</label>
+								<div class="col-lg-6">
+									<input class="form-control" id="inputStreet" type="text" th:field="*{street}" th:placeholder="${#strings.isEmpty(street) ? 'Street' : street}" />
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="form-group">
+								<label for="inputHouseNumber" class="col-lg-6 control-label">House Number</label>
+								<div class="col-lg-6">
+									<input class="form-control" id="inputHouseNumber" type="text" th:field="*{houseNumber}" th:placeholder="${#strings.isEmpty(houseNumber) ? 'House Number' : houseNumber}" />
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="form-group">
+								<div class="col-lg-6">
+									<input class="form-control" id="inputId" type="hidden" th:attr="name='id'" th:value="${id eq null ? null : id}"  th:placeholder="${id eq null ? 'ID' : id}" />
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-offset-9 col-lg-3" style="clear: both;">
+							<div class="form-group text-right" style="margin-right: 0px !important;">
+								<a th:href="@{/add-client}" class="btn btn-default" style="width: 112.5px; margin-right: 26px;"><span>Clear</span></a>
+								<input type="submit" value="Submit" class="btn btn-success" style="width: 112.5px;" th:if="${id eq null}" />
+								<input type="submit" value="Update" class="btn btn-success" style="width: 112.5px;" th:if="${id ne null}" />
+							</div>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+			<footer>
+				<div th:replace="fragments/footer :: footer">&copy; 2017 Invoices</div>
+			</footer>
+		</div>
+	</body>
+</html>

@@ -1,11 +1,12 @@
 package me.krstic.model;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PostLoad;
+import javax.persistence.Transient;
 
 import me.krstic.idClass.InvoiceItemPK;
 
@@ -23,6 +24,8 @@ public class InvoiceItem {
 	@JoinColumn(name = "SERVICE_ID")
 	private Service service;
 	private Double quantity;
+	@Transient
+	private Double total;
 	
 	public InvoiceItem() {
 	}
@@ -31,6 +34,11 @@ public class InvoiceItem {
 		this.invoice = invoice;
 		this.service = service;
 		this.quantity = quantity;
+	}
+	
+	@PostLoad
+	private void onLoad() {
+	    this.total = service.getPrice() * quantity;
 	}
 
 	public Integer getId() {
@@ -65,9 +73,17 @@ public class InvoiceItem {
 		this.quantity = quantity;
 	}
 
+	public Double getTotal() {
+		return total;
+	}
+
+	public void setTotal(Double total) {
+		this.total = total;
+	}
+
 	@Override
 	public String toString() {
 		return "\"InvoiceItem\": {\n\t\"id\": \"" + id + "\",\n\t\"invoice\": \"" + invoice + "\",\n\t\"service\": \""
-				+ service + "\",\n\t\"quantity\": \"" + quantity + "\"\n}";
+				+ service + "\",\n\t\"quantity\": \"" + quantity + "\",\n\t\"total\": \"" + total + "\"\n}";
 	}
 }

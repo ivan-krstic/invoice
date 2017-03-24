@@ -29,16 +29,19 @@ public class Invoice {
 	@OneToMany(mappedBy = "invoice", orphanRemoval = true, cascade = CascadeType.ALL)
 	private List<InvoiceItem> invoiceItems = new ArrayList<>();
 	@Temporal(TemporalType.DATE)
+	private Date invoiceDate;
+	@Temporal(TemporalType.DATE)
 	private Date modifiedOn;
 	
 	public Invoice() {
 	}
 
-	public Invoice(String number, Integer status, Client client, List<InvoiceItem> invoiceItems) {
+	public Invoice(String number, Integer status, Client client, List<InvoiceItem> invoiceItems, Date invoiceDate) {
 		this.number = number;
 		this.status = status;
 		this.client = client;
 		this.invoiceItems = invoiceItems;
+		this.invoiceDate = invoiceDate;
 	}
 
 	public Integer getId() {
@@ -88,6 +91,14 @@ public class Invoice {
 		this.invoiceItems = invoiceItems;
 	}
 
+	public Date getInvoiceDate() {
+		return invoiceDate;
+	}
+
+	public void setInvoiceDate(Date invoiceDate) {
+		this.invoiceDate = invoiceDate;
+	}
+
 	public Date getModifiedOn() {
 		return modifiedOn;
 	}
@@ -100,6 +111,6 @@ public class Invoice {
 	public String toString() {
 		return "\"Invoice\": {\n\t\"id\": \"" + id + "\",\n\t\"number\": \"" + number + "\",\n\t\"status\": \"" + status
 				+ "\",\n\t\"client\": \"" + client + "\",\n\t\"invoiceItems\": \"" + invoiceItems
-				+ "\",\n\t\"modifiedOn\": \"" + modifiedOn + "\"\n}";
+				+ "\",\n\t\"invoiceDate\": \"" + invoiceDate + "\",\n\t\"modifiedOn\": \"" + modifiedOn + "\"\n}";
 	}
 }

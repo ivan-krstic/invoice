@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -20,28 +21,30 @@ public class Invoice {
 	@Id
 	@GeneratedValue
 	private Integer id;
-	
 	private String number;
 	private Integer status;
 	@ManyToOne
 	@JoinColumn(name = "CLIENT_ID")
 	private Client client;
-	@OneToMany(mappedBy = "invoice", orphanRemoval = true, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "invoice", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<InvoiceItem> invoiceItems = new ArrayList<>();
 	@Temporal(TemporalType.DATE)
 	private Date invoiceDate;
-	@Temporal(TemporalType.DATE)
+	private Double totalWithoutTax;
+	private Double tax;
+	private Double total;
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date modifiedOn;
 	
 	public Invoice() {
 	}
 
-	public Invoice(String number, Integer status, Client client, List<InvoiceItem> invoiceItems, Date invoiceDate) {
+	public Invoice(String number, Client client, Date invoiceDate, Integer status) {
 		this.number = number;
-		this.status = status;
 		this.client = client;
-		this.invoiceItems = invoiceItems;
 		this.invoiceDate = invoiceDate;
+		this.status = status;
+		this.modifiedOn = new Date();
 	}
 
 	public Integer getId() {
@@ -99,6 +102,30 @@ public class Invoice {
 		this.invoiceDate = invoiceDate;
 	}
 
+	public Double getTotalWithoutTax() {
+		return totalWithoutTax;
+	}
+
+	public void setTotalWithoutTax(Double totalWithoutTax) {
+		this.totalWithoutTax = totalWithoutTax;
+	}
+
+	public Double getTax() {
+		return tax;
+	}
+
+	public void setTax(Double tax) {
+		this.tax = tax;
+	}
+
+	public Double getTotal() {
+		return total;
+	}
+
+	public void setTotal(Double total) {
+		this.total = total;
+	}
+
 	public Date getModifiedOn() {
 		return modifiedOn;
 	}
@@ -111,6 +138,8 @@ public class Invoice {
 	public String toString() {
 		return "\"Invoice\": {\n\t\"id\": \"" + id + "\",\n\t\"number\": \"" + number + "\",\n\t\"status\": \"" + status
 				+ "\",\n\t\"client\": \"" + client + "\",\n\t\"invoiceItems\": \"" + invoiceItems
-				+ "\",\n\t\"invoiceDate\": \"" + invoiceDate + "\",\n\t\"modifiedOn\": \"" + modifiedOn + "\"\n}";
+				+ "\",\n\t\"invoiceDate\": \"" + invoiceDate + "\",\n\t\"totalWithoutTax\": \"" + totalWithoutTax
+				+ "\",\n\t\"tax\": \"" + tax + "\",\n\t\"total\": \"" + total + "\",\n\t\"modifiedOn\": \"" + modifiedOn
+				+ "\"\n}";
 	}
 }

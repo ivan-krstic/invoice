@@ -27,7 +27,11 @@ public class InvoiceService {
 	public InvoiceService() {
 	}
 	
-	public Page<Invoice> getAllInvoices(int page, int size) {
+	public List<Invoice> findAll() {
+		return (List<Invoice>) invoiceRepository.findAll();
+	}
+	
+	public Page<Invoice> findAll(int page, int size) {
 		return invoiceRepository.findAll(new PageRequest(page, size, Direction.DESC, "invoiceDate"));
 	}
 	
@@ -35,7 +39,7 @@ public class InvoiceService {
 		return invoiceRepository.findOne(id);
 	}
 	
-	public Invoice saveInvoice(Invoice invoice) {
+	public Invoice save(Invoice invoice) {
 		return invoiceRepository.save(invoice);
 	}
 	

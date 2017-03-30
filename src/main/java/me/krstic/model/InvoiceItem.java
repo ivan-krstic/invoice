@@ -1,23 +1,20 @@
 package me.krstic.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PostLoad;
 import javax.persistence.Transient;
 
-import me.krstic.idClass.InvoiceItemPK;
-
 @Entity
-@IdClass(InvoiceItemPK.class)
 public class InvoiceItem {
 
 	@Id
+	@GeneratedValue
 	private Integer id;
 	@ManyToOne
-	@Id
 	@JoinColumn(name = "INVOICE_ID")
 	private Invoice invoice;
 	@ManyToOne
@@ -29,9 +26,8 @@ public class InvoiceItem {
 	
 	public InvoiceItem() {
 	}
-
-	public InvoiceItem(Invoice invoice, Service service, Double quantity) {
-		this.invoice = invoice;
+	
+	public InvoiceItem(Service service, Double quantity) {
 		this.service = service;
 		this.quantity = quantity;
 	}

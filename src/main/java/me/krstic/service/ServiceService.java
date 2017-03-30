@@ -26,15 +26,15 @@ public class ServiceService {
 	public ServiceService() {
 	}
 	
-	public List<me.krstic.model.Service> getAllServices() {
+	public List<me.krstic.model.Service> findAll() {
 		return (List<me.krstic.model.Service>) serviceRepository.findAll();
 	}
 	
-	public Page<me.krstic.model.Service> getAllServices(int page, int size) {
+	public Page<me.krstic.model.Service> findAll(int page, int size) {
 		return serviceRepository.findAll(new PageRequest(page, size, Direction.ASC, "name"));
 	}
 	
-	public me.krstic.model.Service saveService(me.krstic.model.Service service) {
+	public me.krstic.model.Service save(me.krstic.model.Service service) {
 		return serviceRepository.save(service);
 	}
 	

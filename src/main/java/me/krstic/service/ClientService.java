@@ -27,11 +27,15 @@ public class ClientService {
 	public ClientService() {
 	}
 	
-	public Page<Client> getAllClients(int page, int size) {
+	public List<Client> findAll() {
+		return (List<Client>) clientRepository.findAll();
+	}
+	
+	public Page<Client> findAll(int page, int size) {
 		return clientRepository.findAll(new PageRequest(page, size, Direction.ASC, "name"));
 	}
 	
-	public Client saveClient(Client client) {
+	public Client save(Client client) {
 		return clientRepository.save(client);
 	}
 	

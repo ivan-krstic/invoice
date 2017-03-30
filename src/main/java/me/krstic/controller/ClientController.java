@@ -11,7 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,7 +36,7 @@ public class ClientController {
 	
 	@RequestMapping(path = "/clients")
 	public String getClients(Model model) {
-		Page<Client> clients = clientService.getAllClients(0, invoiceConfiguration.getMaxSize());
+		Page<Client> clients = clientService.findAll(0, invoiceConfiguration.getMaxSize());
 
 		model.addAttribute("clientSearchForm", new ClientSearchForm());
 		model.addAttribute("clients", clients.getContent());
@@ -50,7 +49,7 @@ public class ClientController {
 	
 	@RequestMapping(path = "/clients", method = RequestMethod.GET, params = {"page"})
 	public String getInvoicesByPage(@RequestParam int page, Model model) {
-		Page<Client> clients = clientService.getAllClients(page-1, invoiceConfiguration.getMaxSize());
+		Page<Client> clients = clientService.findAll(page-1, invoiceConfiguration.getMaxSize());
 		
 		model.addAttribute("clientSearchForm", new ClientSearchForm());
 		model.addAttribute("clients", clients.getContent());
@@ -135,7 +134,7 @@ public class ClientController {
 		}
 		
 		if (client != null) {
-			clientService.saveClient(client);
+			clientService.save(client);
 		}
 		
 		return "redirect:/clients";

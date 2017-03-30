@@ -54,7 +54,7 @@
 						<dt class="col-sm-8 text-truncate"><span th:text="${status != null} ? ${status} : '&nbsp;'">Status</span></dt>
 						
 						<dd class="col-sm-4">PDF Document</dd>
-						<dt class="col-sm-8 text-truncate"><a href="#" th:href="@{/loanCalculation/pdf(id=${id})}"><img th:src="@{/img/icon_document.png}" height="25" /></a></dt>
+						<dt class="col-sm-8 text-truncate"><a href="#" th:href="@{/invoice-generate(id=${id})}"><img th:src="@{/img/icon_document.png}" height="25" /></a></dt>
 					</dl>
 				</div>
 				

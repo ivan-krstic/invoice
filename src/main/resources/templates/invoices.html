@@ -38,7 +38,7 @@
 					<div class="col-lg-12">
 						 <div class="page-header">
 							<div class="col-lg-6"><h1 id="invoices">Invoices</h1></div>
-							<div class="col-lg-6 text-right" style="margin-top: 21px;"><a href="#" th:href="@{/create-invoice}"><img th:src="@{/img/icon_add.png}" height="50" /></a></div>
+							<div class="col-lg-6 text-right" style="margin-top: 21px;"><a href="#" th:href="@{/invoice-create}"><img th:src="@{/img/icon_add.png}" height="50" /></a></div>
 						</div>
 					</div>
 				</div>
@@ -76,22 +76,6 @@
 								</div>
 							</div>
 						</div>
-<!-- 						
-						<div class="col-lg-6">
-							<div class="form-group">
-								<label for="inputStatus" class="col-lg-6 control-label">Status</label>
-								<div class="col-lg-6">
-									<select class="form-control" id="select" th:field="*{status}">
-										<option selected="selected" value="">Choose status</option>
-										<option th:text="Error" th:value="${-2}"></option>
-										<option th:text="Unsent" th:value="${0}"></option>
-										<option th:text="Prepared" th:value="${-1}"></option>
-										<option th:text="Sent" th:value="${1}"></option>
-									</select>
-								</div>
-							</div>
-						</div>
-						 -->
 						<div class="col-lg-offset-9 col-lg-3" style="clear: both;">
 							<div class="form-group text-right" style="margin-right: 0px !important;">
 								<a th:href="@{/invoices}" class="btn btn-default" style="width: 112.5px; margin-right: 26px;"><span>Clear</span></a>
@@ -121,7 +105,7 @@
 								<td th:text="${invoice.client.zipCode + ' ' + invoice.client.city + ', ' + invoice.client.street + ' ' + invoice.client.houseNumber}" style="text-align:center;">Client address</td>
 								<td th:text="${invoice.invoiceItems.size()}" style="text-align:center;">Invoice items</td>
 								<td th:text="${invoice.invoiceDate}" style="text-align:center;">Invoice date</td>
-								<td th:text="'&nbsp;'" style="text-align:center;">PDF</td>
+								<td style="text-align:center;"><a href="#" th:href="@{/invoice-generate(id=${invoice.id})}"><img th:src="@{/img/icon_document.png}" height="25" /></a></td>
 <!-- 										
 								<td th:text="${loanCalculation.status eq 0 ? 'Unsent' : loanCalculation.status == -1 ? 'Prepared' : loanCalculation.status == 1 ? 'Sent' : 'Error'}" style="text-align:center; font-weight: bold;" th:styleappend="${loanCalculation.status eq -2 ? 'color: red;' : loanCalculation.status eq 1 ? 'color: green;' : loanCalculation.status eq -1 ? 'color: grey;' : 'color: black;'}">Status</td>
  -->

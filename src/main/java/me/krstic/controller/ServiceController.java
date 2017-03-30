@@ -39,7 +39,7 @@ public class ServiceController {
 	
 	@RequestMapping(path = "/services")
 	public String getServices(Model model) {
-		Page<Service> services = serviceService.getAllServices(0, invoiceConfiguration.getMaxSize());
+		Page<Service> services = serviceService.findAll(0, invoiceConfiguration.getMaxSize());
 
 		model.addAttribute("serviceSearchForm", new ServiceSearchForm());
 		model.addAttribute("services", services.getContent());
@@ -52,7 +52,7 @@ public class ServiceController {
 	
 	@RequestMapping(path = "/services", method = RequestMethod.GET, params = {"page"})
 	public String getServicesByPage(@RequestParam int page, Model model) {
-		Page<Service> services = serviceService.getAllServices(page-1, invoiceConfiguration.getMaxSize());
+		Page<Service> services = serviceService.findAll(page-1, invoiceConfiguration.getMaxSize());
 		
 		model.addAttribute("serviceSearchForm", new ServiceSearchForm());
 		model.addAttribute("services", services.getContent());
@@ -74,7 +74,7 @@ public class ServiceController {
 		model.addAttribute("price", service.getPrice());
 		model.addAttribute("status", service.getStatus());
 		
-		model.addAttribute("measurements", measurementService.getAllMeasurements());
+		model.addAttribute("measurements", measurementService.findAll());
 		
 		return "service";
 	}
@@ -95,7 +95,7 @@ public class ServiceController {
 	public String addServiceForm(Model model) {
 		model.addAttribute("serviceAddForm", new ServiceAddForm());
 		
-		model.addAttribute("measurements", measurementService.getAllMeasurements());
+		model.addAttribute("measurements", measurementService.findAll());
 		
 		return "service";
 	}
@@ -132,7 +132,7 @@ public class ServiceController {
 		}
 		
 		if (service != null) {
-			serviceService.saveService(service);
+			serviceService.save(service);
 		}
 		
 		return "redirect:/services";

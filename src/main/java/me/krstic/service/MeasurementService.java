@@ -24,12 +24,16 @@ public class MeasurementService {
 	public MeasurementService() {
 	}
 	
-	public List<Measurement> getAllMeasurements() {
+	public List<Measurement> findAll() {
 		return (List<Measurement>) measurementRepository.findAll();
 	}
 	
-	public Page<Measurement> getAllMeasurements(int page, int size) {
+	public Page<Measurement> findAll(int page, int size) {
 		return measurementRepository.findAll(new PageRequest(page, size, Direction.ASC, "name"));
+	}
+	
+	public Measurement save(Measurement measurement) {
+		return measurementRepository.save(measurement);
 	}
 	
 	public Measurement findById(int id) {

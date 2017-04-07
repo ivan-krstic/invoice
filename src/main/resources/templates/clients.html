@@ -38,45 +38,45 @@
 					<div class="col-lg-12">
 						 <div class="page-header">
 						 	<div class="row">
-						 		<div class="col-lg-6"><h1 id="clients">Clients</h1></div>
-								<div class="col-lg-6 text-right" style="margin-top: 21px;"><a href="#" th:href="@{/add-client}"><img th:src="@{/img/icon_add.png}" height="50" /></a></div>
+						 		<div class="col-lg-6"><h1 id="clients"><span th:utext="#{clients}"></span></h1></div>
+								<div class="col-lg-6 text-right" style="margin-top: 21px;"><a href="#" th:href="@{/client-add}"><img th:src="@{/img/icon_add.png}" height="50" /></a></div>
 						 	</div>
 						</div>
 					</div>
 				</div>
 				
-				<form class="form-horizontal page-header" th:action="@{/searchClients}" th:object="${clientSearchForm}" method="post">
+				<form class="form-horizontal page-header" th:action="@{/client-search}" th:object="${clientSearchForm}" method="post">
 					<fieldset>
-						<legend>Search Clients</legend>
+						<legend><span th:utext="#{client.search}"></span></legend>
 						<div class="col-lg-6">
 							<div class="form-group">
-								<label for="inputName" class="col-lg-6 control-label">Name</label>
+								<label for="inputName" class="col-lg-6 control-label"><span th:utext="#{client.name}"></span></label>
 								<div class="col-lg-6">
-									<input class="form-control" id="inputName" placeholder="Name" type="text" th:field="*{name}" />
+									<input class="form-control" id="inputName" th:placeholder="#{client.name}" type="text" th:field="*{name}" />
 								</div>
 							</div>
 						</div>
 						<div class="col-lg-6">
 							<div class="form-group">
-								<label for="inputZipCode" class="col-lg-6 control-label">Zip Code</label>
+								<label for="inputCity" class="col-lg-6 control-label"><span th:utext="#{client.city}"></span></label>
 								<div class="col-lg-6">
-									<input class="form-control" id="inputZipCode" placeholder="Zip Code" type="text" th:field="*{zipCode}" />
+									<input class="form-control" id="inputCity" th:placeholder="#{client.city}" type="text" th:field="*{city}" />
 								</div>
 							</div>
 						</div>
 						<div class="col-lg-6">
 							<div class="form-group">
-								<label for="inputCity" class="col-lg-6 control-label">City</label>
+								<label for="inputStreet" class="col-lg-6 control-label"><span th:utext="#{client.street}"></span></label>
 								<div class="col-lg-6">
-									<input class="form-control" id="inputCity" placeholder="City" type="text" th:field="*{city}" />
+									<input class="form-control" id="inputStreet" th:placeholder="#{client.street}" type="text" th:field="*{street}" />
 								</div>
 							</div>
 						</div>
 						<div class="col-lg-6">
 							<div class="form-group">
-								<label for="inputStreet" class="col-lg-6 control-label">Street</label>
+								<label for="inputTaxNumber" class="col-lg-6 control-label"><span th:utext="#{client.taxNumber}"></span></label>
 								<div class="col-lg-6">
-									<input class="form-control" id="inputStreet" placeholder="Street" type="text" th:field="*{street}" />
+									<input class="form-control" id="inputTaxNumber" th:placeholder="#{client.taxNumber}" type="text" th:field="*{taxNumber}" />
 								</div>
 							</div>
 						</div>
@@ -95,10 +95,10 @@
 						<table class="table table-striped table-hover">
 							<thead>
 								<tr>
-									<th style="text-align:center;">#</th>
-									<th style="text-align:center;">Name</th>
-									<th style="text-align:center;">Address</th>
-									<th style="text-align:center;">&nbsp;</th>
+									<th style="text-align:center; width:60px;">#</th>
+									<th style="text-align:center;"><span th:utext="#{client.name}"></span></th>
+									<th style="text-align:center;"><span th:utext="#{client.address}"></span></th>
+									<th style="text-align:center; width:60px;">&nbsp;</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -127,7 +127,7 @@
 				</div>
 			</div>
 			<footer>
-				<div th:replace="fragments/footer :: footer">&copy; 2017 Invoices</div>
+				<div th:replace="fragments/footer :: footer"><span th:utext="#{invoice.footer}"></span></div>
 			</footer>
 		</div>
 </body>

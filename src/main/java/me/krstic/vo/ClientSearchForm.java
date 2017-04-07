@@ -6,6 +6,7 @@ public class ClientSearchForm {
 	private String zipCode;
 	private String city;
 	private String street;
+	private String taxNumber;
 	
 	public ClientSearchForm() {
 	}
@@ -42,9 +43,18 @@ public class ClientSearchForm {
 		this.street = street;
 	}
 
+	public String getTaxNumber() {
+		return taxNumber;
+	}
+
+	public void setTaxNumber(String taxNumber) {
+		this.taxNumber = taxNumber;
+	}
+
 	@Override
 	public String toString() {
 		return "\"ClientSearchForm\": {\n\t\"name\": \"" + name + "\",\n\t\"zipCode\": \"" + zipCode
-				+ "\",\n\t\"city\": \"" + city + "\",\n\t\"street\": \"" + street + "\"\n}";
+				+ "\",\n\t\"city\": \"" + city + "\",\n\t\"street\": \"" + street + "\",\n\t\"taxNumber\": \""
+				+ taxNumber + "\"\n}";
 	}
 }

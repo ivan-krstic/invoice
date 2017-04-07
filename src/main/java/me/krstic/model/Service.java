@@ -24,13 +24,20 @@ public class Service {
 	private Integer status;
 	@Temporal(TemporalType.DATE)
 	private Date modifiedOn;
+	@ManyToOne
+	@JoinColumn(name = "USER_ID")
+	private User modifiedBy;
 	
 	public Service() {
 	}
 
-	public Service(String name, Double price) {
+	public Service(String name, Double price, Measurement measurement, User modifiedBy) {
 		this.name = name;
 		this.price = price;
+		this.measurement = measurement;
+		this.status = 1;
+		this.modifiedOn = new Date();
+		this.modifiedBy = modifiedBy;
 	}
 
 	public Integer getId() {
@@ -81,9 +88,18 @@ public class Service {
 		this.modifiedOn = modifiedOn;
 	}
 
+	public User getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(User modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
+
 	@Override
 	public String toString() {
 		return "\"Service\": {\n\t\"id\": \"" + id + "\",\n\t\"name\": \"" + name + "\",\n\t\"price\": \"" + price
-				+ "\",\n\t\"measurement\": \"" + measurement + "\",\n\t\"status\": \"" + status + "\",\n\t\"modifiedOn\": \"" + modifiedOn + "\"\n}";
+				+ "\",\n\t\"measurement\": \"" + measurement + "\",\n\t\"status\": \"" + status
+				+ "\",\n\t\"modifiedOn\": \"" + modifiedOn + "\",\n\t\"modifiedBy\": \"" + modifiedBy + "\"\n}";
 	}
 }

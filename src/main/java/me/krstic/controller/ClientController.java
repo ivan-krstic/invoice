@@ -2,8 +2,6 @@ package me.krstic.controller;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +22,7 @@ import me.krstic.vo.ClientSearchForm;
 @Controller
 public class ClientController {
 	
+	@SuppressWarnings("unused")
 	private static final Logger log = LoggerFactory.getLogger(ClientController.class);
 
 	@Autowired
@@ -71,71 +70,38 @@ public class ClientController {
 		model.addAttribute("city", client.getCity());
 		model.addAttribute("street", client.getStreet());
 		model.addAttribute("houseNumber", client.getHouseNumber());
+		model.addAttribute("email", client.getEmail());
+		model.addAttribute("phone", client.getPhone());
+		model.addAttribute("bankAccount", client.getBankAccount());
+		model.addAttribute("bankName", client.getBankName());
+		model.addAttribute("taxNumber", client.getTaxNumber());
 		model.addAttribute("status", client.getStatus());
 		
 		return "client";
 	}
 	
-	@RequestMapping(value = "/searchClients", method = RequestMethod.POST)
+	@RequestMapping(value = "/client-search", method = RequestMethod.POST)
 	public String getClientsBySearch(ClientSearchForm clientSearchForm, BindingResult bindingResult, Model model) {
 		if (bindingResult.hasErrors()) {
 			
 		}
 		
-		List<Client> clients = clientService.findByClientSearchForm(clientSearchForm);
+		List<Client> clients = clientService.findBySearchForm(clientSearchForm);
 		model.addAttribute("clients", clients);
 		
 		return "clients";
 	}
 	
-	@RequestMapping(value = "/add-client", method = RequestMethod.GET)
+	@RequestMapping(value = "/client-add", method = RequestMethod.GET)
 	public String addClientForm(Model model) {
 		model.addAttribute("clientAddForm", new ClientAddForm());
 		
 		return "client";
 	}
 	
-	@RequestMapping(value = "/addClient", method = RequestMethod.POST)
-	public String addClient(@Valid ClientAddForm clientAddForm, BindingResult bindingResult, Model model) {
-		if (bindingResult.hasErrors()) {
-			
-		}
-		
-		Client client;
-		
-		if (clientAddForm.getId() != null) {
-			log.info("ID: " + clientAddForm.getId());
-			
-			client = clientService.findById(clientAddForm.getId());
-			
-			if (clientAddForm.getName() != null && !clientAddForm.getName().isEmpty()) {
-				client.setName(clientAddForm.getName());
-			}
-			if (clientAddForm.getZipCode() != null && !clientAddForm.getZipCode().isEmpty()) {
-				client.setZipCode(clientAddForm.getZipCode());
-			}
-			if (clientAddForm.getCity() != null && !clientAddForm.getCity().isEmpty()) {
-				client.setCity(clientAddForm.getCity());
-			}
-			if (clientAddForm.getStreet() != null && !clientAddForm.getStreet().isEmpty()) {
-				client.setStreet(clientAddForm.getStreet());
-			}
-			if (clientAddForm.getHouseNumber() != null && !clientAddForm.getHouseNumber().isEmpty()) {
-				client.setHouseNumber(clientAddForm.getHouseNumber());
-			}
-		} else {
-			client = new Client(
-				clientAddForm.getName().isEmpty() ? null : clientAddForm.getName(),
-				clientAddForm.getZipCode().isEmpty() ? null : clientAddForm.getZipCode(),
-				clientAddForm.getCity().isEmpty() ? null : clientAddForm.getCity(),
-				clientAddForm.getStreet().isEmpty() ? null : clientAddForm.getStreet(),
-				clientAddForm.getHouseNumber().isEmpty() ? null : clientAddForm.getHouseNumber(),
-				1);
-		}
-		
-		if (client != null) {
-			clientService.save(client);
-		}
+	@RequestMapping(value = "/client-add", method = RequestMethod.POST)
+	public String addClient(ClientAddForm clientAddForm, Model model) {		
+		clientService.createOrUpdate(clientAddForm);
 		
 		return "redirect:/clients";
 	}

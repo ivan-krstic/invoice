@@ -3,12 +3,10 @@ package me.krstic.controller;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import javax.naming.NamingException;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -27,8 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import me.krstic.configuration.InvoiceConfiguration;
 import me.krstic.model.Client;
 import me.krstic.model.Invoice;
-import me.krstic.model.InvoiceItem;
-import me.krstic.model.Service;
+
 import me.krstic.service.ClientService;
 import me.krstic.service.InvoiceService;
 import me.krstic.service.JasperReportService;
@@ -42,6 +39,7 @@ import net.sf.jasperreports.engine.JasperReport;
 @Controller
 public class InvoiceController {
 
+	@SuppressWarnings("unused")
 	private static final Logger log = LoggerFactory.getLogger(InvoiceController.class);
 	
 	@Autowired
@@ -108,7 +106,7 @@ public class InvoiceController {
 			
 		}
 		
-		List<Invoice> invoices = invoiceService.findByInvoiceSearchForm(invoiceSearchForm);
+		List<Invoice> invoices = invoiceService.findBySearchForm(invoiceSearchForm);
 		model.addAttribute("invoices", invoices);
 		
 		return "invoices";
@@ -136,39 +134,7 @@ public class InvoiceController {
 		if (bindingResult.hasErrors()) {
 		}
 		
-		List<Integer> serviceIds = invoiceCreateForm.getInputServiceId();
-		List<Double> quantites = invoiceCreateForm.getInputQuantity();
-		
-		if (serviceIds != null && serviceIds.size() > 0 && quantites != null && quantites.size() > 0) {
-			Client client = clientService.findById(invoiceCreateForm.getClientId());
-			
-			Invoice invoice = new Invoice();
-			invoice.setNumber(invoiceCreateForm.getNumber());
-			invoice.setClient(client);
-			invoice.setInvoiceDate(invoiceCreateForm.getInvoiceDate());
-			invoice.setModifiedOn(new Date());
-			invoice.setStatus(1);
-			
-			List<InvoiceItem> invoiceItems = new ArrayList<>();
-			Double total = 0d;
-			
-			for (int i = 0; i < serviceIds.size(); i++) {
-				Service service = serviceService.findById(serviceIds.get(i));
-				
-				InvoiceItem invoiceItem = new InvoiceItem();
-				invoiceItem.setService(service);
-				invoiceItem.setQuantity(quantites.get(i));
-				invoiceItem.setInvoice(invoice);
-				total += quantites.get(i) * service.getPrice();
-				
-				invoiceItems.add(invoiceItem);
-			}
-			invoice.setInvoiceItems(invoiceItems);
-			invoice.setTotal(total);
-			invoice = invoiceService.save(invoice);
-			
-			log.info("Invoice ID: " + invoice.getId());
-		}
+		invoiceService.createOrUpdate(invoiceCreateForm);
 
 /*		
 		Invoice invoice = new Invoice(

@@ -38,44 +38,39 @@
 				<div class="row">
 					<div class="col-lg-12">
 						 <div class="page-header">
-							<h1 id="service">Create Invoice</h1>
+							<h1 id="service"><span th:utext="#{invoice.create}"></span></h1>
 						</div>
 					</div>
 				</div>
-<!-- 
-				<form class="form-horizontal page-header" th:action="@{/invoice-create}" th:object="${invoiceCreateForm}" method="post">
- -->
+
 				<form class="form-horizontal page-header" th:action="@{/invoice-create}" th:object="${invoiceCreateForm}" method="post">
 					<fieldset>
-						<div class="col-lg-12">
+						<div class="col-lg-6">
 							<div class="form-group">
-								<label for="inputClient" class="col-lg-3 control-label">Client</label>
-								<div class="col-lg-6">
-									<input id="inputClient" type="text" class="form-control" />
+								<label for="inputClient" class="col-lg-3 control-label"><span th:utext="#{client}"></span></label>
+								<div class="col-lg-9">
+									<input id="inputClient" type="text" class="form-control" th:placeholder="#{invoice.client}" />
 								</div>
 							</div>
 						</div>
-						<div class="col-lg-12">
+						<div class="col-lg-6">
 							<div class="form-group">
-								<input id="inputClientId" type="hidden" th:field="*{clientId}" class="form-control" />
-							</div>
-						</div>
-						<div class="col-lg-12">
-							<div class="form-group">
-								<label for="inputInvoiceNumber" class="col-lg-3 control-label">Invoice Number</label>
-								<div class="col-lg-6">
-									<input class="form-control" id="inputInvoiceNumber" type="text" th:field="*{number}" placeholder="Number" />
+								<label for="inputInvoiceNumber" class="col-lg-3 control-label"><span th:utext="#{invoice.number}"></span></label>
+								<div class="col-lg-9">
+									<input class="form-control" id="inputInvoiceNumber" type="text" th:field="*{number}" th:placeholder="#{invoice.number}" />
 								</div>
 							</div>
 						</div>
-						<div class="col-lg-12">
+						<div class="col-lg-6">
 							<div class="form-group">
-								<label for="inputInvoiceDate" class="col-lg-3 control-label">Invoice Date</label>
-								<div class="col-lg-6">
-									<input class="date form-control" id="inputInvoiceDate" type="text" th:field="*{invoiceDate}" placeholder="Invoice Date" />
+								<label for="inputInvoiceDate" class="col-lg-3 control-label"><span th:utext="#{invoice.invoiceDate}"></span></label>
+								<div class="col-lg-9">
+									<input class="date form-control" id="inputInvoiceDate" type="text" th:field="*{invoiceDate}" th:placeholder="#{invoice.invoiceDate}" />
 								</div>
 							</div>
 						</div>
+						<input id="inputClientId" type="hidden" th:field="*{clientId}" class="form-control" />
+						<input id="modifiedBy" type="hidden" th:attr="name='modifiedBy'" th:value="${#httpServletRequest.remoteUser}" class="form-control" />
 					</fieldset>
 				
 					<div class="row">
@@ -85,12 +80,12 @@
 									<thead>
 										<tr>
 											<th style="text-align:center; width:50px;">#</th>
-											<th style="text-align:center;">Service</th>
-											<th style="text-align:center; width:140px;">Measurement</th>
-											<th style="text-align:center; width:140px;">Quantity</th>
+											<th style="text-align:center;"><span th:utext="#{invoiceItem.service}"></span></th>
+											<th style="text-align:center; width:140px;"><span th:utext="#{invoiceItem.measurement}"></span></th>
+											<th style="text-align:center; width:140px;"><span th:utext="#{invoiceItem.quantity}"></span></th>
 											<th style="text-align:center; width:50px;">&nbsp;</th>
-											<th style="text-align:center;">Price</th>
-											<th style="text-align:center;">Total</th>
+											<th style="text-align:center;"><span th:utext="#{invoiceItem.price}"></span></th>
+											<th style="text-align:center;"><span th:utext="#{invoiceItem.total}"></span></th>
 											<th style="text-align:center; width:30px;">&nbsp;</th>
 										</tr>
 									</thead>
@@ -109,14 +104,14 @@
 											<td style="text-align:center;">&nbsp;</td>
 											<td style="text-align:center;">
 												<select class="form-control" id="inputService" onchange="showMeasurement()">
-													<option selected="selected" value="">Choose services</option>
+													<option selected="selected" value="" th:label="#{invoiceItem.service.choose}">Choose services</option>
 													<option th:each="service : ${services}" th:value="${service.id}" th:text="${service.name}">Service</option>
 												</select>
 												<input id="inputServiceId" type="hidden" />
 												<input id="inputServiceName" type="hidden" />
 											</td>
 											<td style="text-align:center; vertical-align: middle;"><p id="inputMeasurement" style="margin: 0px;" /></td>
-											<td style="text-align:center;"><input class="form-control" id="inputQuantity" type="text" placeholder="Quantity" size="2" onkeypress="showTotal()" /></td>
+											<td style="text-align:center;"><input class="form-control" id="inputQuantity" type="text" th:placeholder="#{invoiceItem.quantity}" size="2" onkeypress="showTotal()" /></td>
 											<td style="text-align:center; vertical-align: middle;">x</td>
 											<td style="text-align:center; vertical-align: middle;"><p id="inputPrice" style="margin: 0px;" /></td>
 											<td class="value" style="text-align:center; vertical-align: middle;"><p id="inputTotal" style="margin: 0px;" /><input id="inputTotalSum" type="hidden" /></td>
@@ -139,7 +134,7 @@
 				</form>
 			</div>
 			<footer>
-				<div th:replace="fragments/footer :: footer">&copy; 2017 Invoices</div>
+				<div th:replace="fragments/footer :: footer"><span th:utext="#{invoice.footer}"></span></div>
 			</footer>
 		</div>
 

@@ -35,16 +35,20 @@ public class Invoice {
 	private Double total;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date modifiedOn;
+	@ManyToOne
+	@JoinColumn(name = "USER_ID")
+	private User modifiedBy;
 	
 	public Invoice() {
 	}
 
-	public Invoice(String number, Client client, Date invoiceDate, Integer status) {
+	public Invoice(String number, Client client, Date invoiceDate, User modifiedBy) {
 		this.number = number;
 		this.client = client;
 		this.invoiceDate = invoiceDate;
-		this.status = status;
+		this.status = 1;
 		this.modifiedOn = new Date();
+		this.modifiedBy = modifiedBy;
 	}
 
 	public Integer getId() {
@@ -134,12 +138,20 @@ public class Invoice {
 		this.modifiedOn = modifiedOn;
 	}
 
+	public User getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(User modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
+
 	@Override
 	public String toString() {
 		return "\"Invoice\": {\n\t\"id\": \"" + id + "\",\n\t\"number\": \"" + number + "\",\n\t\"status\": \"" + status
 				+ "\",\n\t\"client\": \"" + client + "\",\n\t\"invoiceItems\": \"" + invoiceItems
 				+ "\",\n\t\"invoiceDate\": \"" + invoiceDate + "\",\n\t\"totalWithoutTax\": \"" + totalWithoutTax
 				+ "\",\n\t\"tax\": \"" + tax + "\",\n\t\"total\": \"" + total + "\",\n\t\"modifiedOn\": \"" + modifiedOn
-				+ "\"\n}";
+				+ "\",\n\t\"modifiedBy\": \"" + modifiedBy + "\"\n}";
 	}
 }

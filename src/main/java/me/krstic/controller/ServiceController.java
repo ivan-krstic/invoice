@@ -2,6 +2,7 @@ package me.krstic.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -25,6 +26,7 @@ import me.krstic.vo.ServiceSearchForm;
 @Controller
 public class ServiceController {
 
+	@SuppressWarnings("unused")
 	private static final Logger log = LoggerFactory.getLogger(ServiceController.class);
 	
 	@Autowired
@@ -39,7 +41,7 @@ public class ServiceController {
 	
 	@RequestMapping(path = "/services")
 	public String getServices(Model model) {
-		Page<Service> services = serviceService.findAll(0, invoiceConfiguration.getMaxSize());
+		Page<Service> services = serviceService.findAllActive(0, invoiceConfiguration.getMaxSize());
 
 		model.addAttribute("serviceSearchForm", new ServiceSearchForm());
 		model.addAttribute("services", services.getContent());
@@ -52,7 +54,7 @@ public class ServiceController {
 	
 	@RequestMapping(path = "/services", method = RequestMethod.GET, params = {"page"})
 	public String getServicesByPage(@RequestParam int page, Model model) {
-		Page<Service> services = serviceService.findAll(page-1, invoiceConfiguration.getMaxSize());
+		Page<Service> services = serviceService.findAllActive(page-1, invoiceConfiguration.getMaxSize());
 		
 		model.addAttribute("serviceSearchForm", new ServiceSearchForm());
 		model.addAttribute("services", services.getContent());
@@ -79,61 +81,42 @@ public class ServiceController {
 		return "service";
 	}
 	
-	@RequestMapping(value = "/searchServices", method = RequestMethod.POST)
+	@RequestMapping(value = "/service-search", method = RequestMethod.POST)
 	public String getServicesBySearch(ServiceSearchForm serviceSearchForm, BindingResult bindingResult, Model model) {
 		if (bindingResult.hasErrors()) {
 			
 		}
 		
-		List<Service> services = serviceService.findByServiceSearchForm(serviceSearchForm);
+		List<Service> services = serviceService.findBySearchForm(serviceSearchForm);
 		model.addAttribute("services", services);
 		
 		return "services";
 	}
 	
-	@RequestMapping(value = "/add-service", method = RequestMethod.GET)
+	@RequestMapping(value = "/service-add", method = RequestMethod.GET)
 	public String addServiceForm(Model model) {
 		model.addAttribute("serviceAddForm", new ServiceAddForm());
-		
 		model.addAttribute("measurements", measurementService.findAll());
 		
 		return "service";
 	}
 	
-	@RequestMapping(value = "/addService", method = RequestMethod.POST)
-	public String addService(@Valid ServiceAddForm serviceAddForm, BindingResult bindingResult, Model model) {
+	@RequestMapping(value = "/service-add", method = RequestMethod.POST)
+	public String addService(@Valid ServiceAddForm serviceAddForm, BindingResult bindingResult, Model model, HttpServletRequest request) {
 		if (bindingResult.hasErrors()) {
+			model.addAttribute("measurements", measurementService.findAll());
 			
+			return "service";
 		}
 		
-		Service service;
+		serviceService.createOrUpdate(serviceAddForm);
 		
-		if (serviceAddForm.getId() != null) {
-			log.info("ID: " + serviceAddForm.getId());
-			
-			service = serviceService.findById(serviceAddForm.getId());
-			
-			if (serviceAddForm.getName() != null && !serviceAddForm.getName().isEmpty()) {
-				service.setName(serviceAddForm.getName());
-			}
-			if (serviceAddForm.getPrice() != null && serviceAddForm.getPrice() != 0) {
-				service.setPrice(serviceAddForm.getPrice());
-			}
-			if (serviceAddForm.getMeasurementId() != null && serviceAddForm.getMeasurementId() != 0) {
-				service.setMeasurement(measurementService.findById(serviceAddForm.getMeasurementId()));
-			}
-		} else {
-			service = new Service(
-				serviceAddForm.getName().isEmpty() ? null : serviceAddForm.getName(),
-				serviceAddForm.getPrice() == 0 ? null : serviceAddForm.getPrice());
-			
-			service.setMeasurement(measurementService.findById(serviceAddForm.getMeasurementId()));
-			
-		}
-		
-		if (service != null) {
-			serviceService.save(service);
-		}
+		return "redirect:/services";
+	}
+	
+	@RequestMapping(value = "/service-remove", method = RequestMethod.GET, params = {"id"})
+	public String removeServiceForm(@RequestParam int id) {
+		serviceService.delete(id);
 		
 		return "redirect:/services";
 	}

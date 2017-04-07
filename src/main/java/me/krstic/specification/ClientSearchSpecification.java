@@ -58,4 +58,28 @@ public class ClientSearchSpecification {
 			}
 		};
 	}
+	
+	public static Specification<Client> hasEmail(String email) {
+		return new Specification<Client>() {
+			public Predicate toPredicate(Root<Client> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+				if (email != null && !email.isEmpty()) {
+					return builder.like(builder.upper(root.get("email")), "%"+email.toUpperCase()+"%");
+				} else {
+					return null;
+				}
+			}
+		};
+	}
+	
+	public static Specification<Client> hasTaxNumber(String taxNumber) {
+		return new Specification<Client>() {
+			public Predicate toPredicate(Root<Client> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+				if (taxNumber != null && !taxNumber.isEmpty()) {
+					return builder.equal(root.get("taxNumber"), taxNumber);
+				} else {
+					return null;
+				}
+			}
+		};
+	}
 }

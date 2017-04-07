@@ -1,11 +1,19 @@
 package me.krstic.vo;
 
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class ServiceAddForm {
 
 	private Integer id;
+	@NotEmpty(message = "Service name is empty.")
 	private String name;
+	@NotNull(message = "Service price is empty.")
 	private Double price;
+	@NotNull(message = "Service measurement is empty.")
 	private Integer measurementId;
+	private String modifiedBy;
 	
 	public ServiceAddForm() {
 	}
@@ -42,9 +50,18 @@ public class ServiceAddForm {
 		this.measurementId = measurementId;
 	}
 
+	public String getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(String modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
+
 	@Override
 	public String toString() {
 		return "\"ServiceAddForm\": {\n\t\"id\": \"" + id + "\",\n\t\"name\": \"" + name + "\",\n\t\"price\": \""
-				+ price + "\",\n\t\"measurementId\": \"" + measurementId + "\"\n}";
+				+ price + "\",\n\t\"measurementId\": \"" + measurementId + "\",\n\t\"modifiedBy\": \"" + modifiedBy
+				+ "\"\n}";
 	}
 }

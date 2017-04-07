@@ -26,15 +26,18 @@ import net.sf.jasperreports.engine.util.JRLoader;
 @Service
 public class JasperReportService {
 	
+	@SuppressWarnings("unused")
 	private static final Logger log = LoggerFactory.getLogger(JasperReportService.class);
 	
 	@Autowired
 	private DataSource datasource;
 	
-	@Value(value = "classpath:jasper/invoice.jrxml")
+	@Value(value = "classpath:jasper/reports/invoice.jrxml")
 	private Resource invoiceJrxml;
-	@Value(value = "classpath:jasper/invoice.jasper")
+	@Value(value = "classpath:jasper/reports/invoice.jasper")
 	private Resource invoiceJasper;
+	@Value(value = "classpath:jasper/images/logo-template.jpg")
+	private Resource jasperLogo;
 	
 	public JasperReport getFile() throws IOException, JRException {
 		File invoiceJrxmlFile = invoiceJrxml.getFile();
@@ -49,6 +52,7 @@ public class JasperReportService {
 	
 	public void generateInvoicePDF(HttpServletResponse response, Map<String, Object> parameters, JasperReport jasperReport)throws JRException, NamingException, SQLException, IOException {		
 		byte[] bytes = null;
+		parameters.put("logo", jasperLogo.getInputStream());
 		bytes = JasperRunManager.runReportToPdf(jasperReport, parameters, datasource.getConnection());
 		response.reset();
 		response.resetBuffer();

@@ -31,14 +31,14 @@
 				<div class="row">
 					<div class="col-lg-12">
 						 <div class="page-header">
-							<h1 id="invoices">Invoices</h1>
+							<h1 id="invoices"><span th:utext="#{invoices}"></span></h1>
 						</div>
 					</div>
 				</div>
 				
 			</div>
 			<footer>
-				<div th:replace="fragments/footer :: footer">&copy; 2017 Invoices</div>
+				<div th:replace="fragments/footer :: footer"><span th:utext="#{invoice.footer}"></span></div>
 			</footer>
 		</div>
 	</body>

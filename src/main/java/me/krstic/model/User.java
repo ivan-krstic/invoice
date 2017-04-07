@@ -5,35 +5,33 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-public class Measurement {
+public class User {
 
 	@Id
 	@GeneratedValue
 	private Integer id;
+	private String username;
+	private String password;
 	private String name;
-	private String desciption;
+	private String role;
 	private Integer status;
 	@Temporal(TemporalType.DATE)
 	private Date modifiedOn;
-	@ManyToOne
-	@JoinColumn(name = "USER_ID")
-	private User modifiedBy;
 	
-	public Measurement() {
+	public User() {
 	}
 
-	public Measurement(String name, String desciption, User modifiedBy) {
+	public User(String username, String password, String name, String role) {
+		this.username = username;
+		this.password = password;
 		this.name = name;
-		this.desciption = desciption;
+		this.role = role;
 		this.status = 1;
 		this.modifiedOn = new Date();
-		this.modifiedBy = modifiedBy;
 	}
 
 	public Integer getId() {
@@ -44,6 +42,22 @@ public class Measurement {
 		this.id = id;
 	}
 
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -52,12 +66,12 @@ public class Measurement {
 		this.name = name;
 	}
 
-	public String getDesciption() {
-		return desciption;
+	public String getRole() {
+		return role;
 	}
 
-	public void setDesciption(String desciption) {
-		this.desciption = desciption;
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 	public Integer getStatus() {
@@ -76,18 +90,10 @@ public class Measurement {
 		this.modifiedOn = modifiedOn;
 	}
 
-	public User getModifiedBy() {
-		return modifiedBy;
-	}
-
-	public void setModifiedBy(User modifiedBy) {
-		this.modifiedBy = modifiedBy;
-	}
-
 	@Override
 	public String toString() {
-		return "\"Measurement\": {\n\t\"id\": \"" + id + "\",\n\t\"name\": \"" + name + "\",\n\t\"desciption\": \""
-				+ desciption + "\",\n\t\"status\": \"" + status + "\",\n\t\"modifiedOn\": \"" + modifiedOn
-				+ "\",\n\t\"modifiedBy\": \"" + modifiedBy + "\"\n}";
+		return "\"User\": {\n\t\"id\": \"" + id + "\",\n\t\"username\": \"" + username + "\",\n\t\"password\": \""
+				+ password + "\",\n\t\"name\": \"" + name + "\",\n\t\"role\": \"" + role + "\",\n\t\"status\": \""
+				+ status + "\",\n\t\"modifiedOn\": \"" + modifiedOn + "\"\n}";
 	}
 }

@@ -10,6 +10,7 @@ import me.krstic.service.MeasurementService;
 @Controller
 public class MeasurementController {
 
+	@SuppressWarnings("unused")
 	private static final Logger log = LoggerFactory.getLogger(MeasurementController.class);
 	
 	@Autowired

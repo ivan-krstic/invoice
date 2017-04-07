@@ -37,7 +37,7 @@
 				<div class="row">
 					<div class="col-lg-12">
 						 <div class="page-header">
-							<div class="col-lg-6"><h1 id="invoices">Invoices</h1></div>
+							<div class="col-lg-6"><h1 id="invoices"><span th:utext="#{invoices}"></span></h1></div>
 							<div class="col-lg-6 text-right" style="margin-top: 21px;"><a href="#" th:href="@{/invoice-create}"><img th:src="@{/img/icon_add.png}" height="50" /></a></div>
 						</div>
 					</div>
@@ -45,34 +45,23 @@
 				
 				<form class="form-horizontal page-header" th:action="@{/searchInvoices}" th:object="${invoiceSearchForm}" method="post">
 					<fieldset>
-						<legend>Search Invoices</legend>
+						<legend><span th:utext="#{invoice.search}"></span></legend>
 						<div class="col-lg-6">
 							<div class="form-group">
-								<label for="inputClientName" class="col-lg-6 control-label">Client Name</label>
+								<label for="inputClientName" class="col-lg-6 control-label"><span th:utext="#{invoice.client}"></span></label>
 								<div class="col-lg-6">
-									<input class="form-control" id="inputClientName" placeholder="Client Name" type="text" th:field="*{clientName}" />
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-6" style="clear: both;">
-							<div class="form-group">
-								<label for="inputInvoiceDateFrom" class="col-lg-6 control-label">Invoice date from</label>
-								<div class="col-lg-3">
-									<input class="date form-control" id="inputInvoiceDateFrom" placeholder="From" type="text" th:field="*{invoiceDateFrom}" />
-								</div>
-								<div class="col-lg-3">
-									<input class="date form-control" placeholder="To" type="text" th:field="*{invoiceDateTo}" />
+									<input class="form-control" id="inputClientName" th:placeholder="#{invoice.client}" type="text" th:field="*{clientName}" />
 								</div>
 							</div>
 						</div>
 						<div class="col-lg-6">
 							<div class="form-group">
-								<label for="inputInvoiceDateTo" class="col-lg-6 control-label">Invoice date to</label>
+								<label for="inputInvoiceDateFrom" class="col-lg-6 control-label"><span th:utext="#{invoice.invoiceDate}"></span></label>
 								<div class="col-lg-3">
-									<input class="date form-control" id="inputInvoiceDateTo" placeholder="To" type="text" th:field="*{invoiceDateTo}" />
+									<input class="date form-control" id="inputInvoiceDateFrom" th:placeholder="#{invoice.from}" type="text" th:field="*{invoiceDateFrom}" />
 								</div>
 								<div class="col-lg-3">
-									<input class="date form-control" placeholder="To" type="text" th:field="*{invoiceDateTo}" />
+									<input class="date form-control" th:placeholder="#{invoice.to}" type="text" th:field="*{invoiceDateTo}" />
 								</div>
 							</div>
 						</div>
@@ -89,22 +78,22 @@
 					<table class="table table-striped table-hover">
 						<thead>
 							<tr>
-								<th style="text-align:center;">Invoice number</th>
-								<th style="text-align:center;">Client name</th>
-								<th style="text-align:center;">Client address</th>
-								<th style="text-align:center;">Invoice items</th>
-								<th style="text-align:center;">Invoice date</th>
-								<th style="text-align:center;">PDF</th>
+								<th style="text-align:center;"><span th:utext="#{invoice.number}"></span></th>
+								<th style="text-align:center;"><span th:utext="#{invoice.client}"></span></th>
+								<th style="text-align:center;"><span th:utext="#{client.address}"></span></th>
+								<th style="text-align:center;"><span th:utext="#{invoice.invoiceItems}"></span></th>
+								<th style="text-align:center;"><span th:utext="#{invoice.invoiceDate}"></span></th>
+								<th style="text-align:center;"><span th:utext="#{invoice.pdf}"></span></th>
 								<th style="text-align:center;">&nbsp;</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr th:each="invoice,status : ${invoices}" th:class="${status.odd} ? 'odd'">
-							<td th:text="${invoice.number}" style="text-align:center;">Invoice number</td>
-								<td th:text="${invoice.client.name}" style="text-align:center;">Client name</td>
-								<td th:text="${invoice.client.zipCode + ' ' + invoice.client.city + ', ' + invoice.client.street + ' ' + invoice.client.houseNumber}" style="text-align:center;">Client address</td>
-								<td th:text="${invoice.invoiceItems.size()}" style="text-align:center;">Invoice items</td>
-								<td th:text="${invoice.invoiceDate}" style="text-align:center;">Invoice date</td>
+							<td th:text="${invoice.number}" style="text-align:center;"><span th:utext="#{invoice.number}"></span></td>
+								<td th:text="${invoice.client.name}" style="text-align:center;"><span th:utext="#{invoice.client}"></span></td>
+								<td th:text="${invoice.client.zipCode + ' ' + invoice.client.city + ', ' + invoice.client.street + ' ' + invoice.client.houseNumber}" style="text-align:center;"><span th:utext="#{client.address}"></span></td>
+								<td th:text="${invoice.invoiceItems.size()}" style="text-align:center;"><span th:utext="#{invoice.invoiceItems}"></span></td>
+								<td th:text="${invoice.invoiceDate}" style="text-align:center;"><span th:utext="#{invoice.invoiceDate}"></span></td>
 								<td style="text-align:center;"><a href="#" th:href="@{/invoice-generate(id=${invoice.id})}"><img th:src="@{/img/icon_document.png}" height="25" /></a></td>
 <!-- 										
 								<td th:text="${loanCalculation.status eq 0 ? 'Unsent' : loanCalculation.status == -1 ? 'Prepared' : loanCalculation.status == 1 ? 'Sent' : 'Error'}" style="text-align:center; font-weight: bold;" th:styleappend="${loanCalculation.status eq -2 ? 'color: red;' : loanCalculation.status eq 1 ? 'color: green;' : loanCalculation.status eq -1 ? 'color: grey;' : 'color: black;'}">Status</td>
@@ -134,7 +123,7 @@
 				</div>
 			</div>
 			<footer>
-				<div th:replace="fragments/footer :: footer">&copy; 2017 Invoices</div>
+				<div th:replace="fragments/footer :: footer"><span th:utext="#{invoice.footer}"></span></div>
 			</footer>
 		</div>
 

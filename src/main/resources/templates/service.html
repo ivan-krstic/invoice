@@ -31,61 +31,108 @@
 				<div class="row">
 					<div class="col-lg-12">
 						 <div class="page-header">
-							<h1 id="service">Service</h1>
+							<h1 id="service"><span th:utext="#{service}"></span></h1>
 						</div>
 					</div>
 				</div>
 				
-				<form class="form-horizontal page-header" th:action="@{/addService}" th:object="${serviceAddForm}" method="post">
+				<form class="form-horizontal" th:action="@{/service-add}" th:object="${serviceAddForm}" method="post">
 					<fieldset>
-						<legend>Add Service</legend>
+						<legend>
+							<span th:utext="#{service.add}"></span>
+							<a href="#" data-toggle="modal" data-target="#serviceRemove" th:attr="data-id=${id}" class="btn btn-danger" style="width:80px; float:right; height:33px; padding-top:5px;" th:if="${id ne null}"><span th:utext="#{button.remove}"></span></a>
+						</legend>
 						<div class="col-lg-12">
 							<div class="form-group">
-								<label for="inputName" class="col-lg-3 control-label">Name</label>
+								<label for="inputName" class="col-lg-3 control-label"><span th:utext="#{service.name}"></span></label>
 								<div class="col-lg-6">
-									<input class="form-control" id="inputName" type="text" th:field="*{name}" th:placeholder="${#strings.isEmpty(name) ? 'Name' : name}" />
+									<input class="form-control" id="inputName" type="text" th:field="*{name}" th:placeholder="${#strings.isEmpty(name)} ? #{service.name} : ${name}" />
+									<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red;">Incorrect service name.</p>
 								</div>
 							</div>
 						</div>
 						<div class="col-lg-12">
 							<div class="form-group">
-								<label for="inputPrice" class="col-lg-3 control-label">Price</label>
+								<label for="inputPrice" class="col-lg-3 control-label"><span th:utext="#{service.price}"></span></label>
 								<div class="col-lg-6">
-									<input class="form-control" id="inputPrice" type="text" th:field="*{price}" th:placeholder="${#strings.isEmpty(price) ? 'Price' : price}" />
+									<input class="form-control" id="inputPrice" type="text" th:field="*{price}" th:placeholder="${#strings.isEmpty(price)} ? #{service.price} : ${price}" />
+									<p th:if="${#fields.hasErrors('price')}" th:errors="*{price}" style="color:red;">Incorrect service price.</p>
 								</div>
 							</div>
 						</div>
 						<div class="col-lg-12">
 							<div class="form-group">
-								<label for="inputMeasurement" class="col-lg-3 control-label">Measurement</label>
+								<label for="inputMeasurement" class="col-lg-3 control-label"><span th:utext="#{service.measurement}"></span></label>
 								<div class="col-lg-6">
 									<select class="form-control" id="measurement" th:field="*{measurementId}">
-										<option selected="selected" value="">Choose status</option>
+										<option selected="selected" value="" th:label="#{measurement.choose}">Choose measurement</option>
 										<option th:each="measurementItem : ${measurements}" th:value="${measurementItem.id}" th:text="${measurementItem.name}">Measurement</option>
 									</select>
+									<p th:if="${#fields.hasErrors('measurementId')}" th:errors="*{measurementId}" style="color:red;">Incorrect service measurement.</p>
 								</div>
 							</div>
 						</div>
-						<div class="col-lg-12">
-							<div class="form-group">
-								<div class="col-lg-6">
-									<input class="form-control" id="inputId" type="hidden" th:attr="name='id'" th:value="${id eq null ? null : id}"  th:placeholder="${id eq null ? 'ID' : id}" />
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-offset-9 col-lg-3" style="clear: both;">
+						<div class="col-lg-offset-6 col-lg-6" style="clear: both;">
 							<div class="form-group text-right" style="margin-right: 0px !important;">
-								<a th:href="@{/add-service}" class="btn btn-default" style="width: 112.5px; margin-right: 26px;"><span>Clear</span></a>
-								<input type="submit" value="Submit" class="btn btn-success" style="width: 112.5px;" th:if="${id eq null}" />
-								<input type="submit" value="Update" class="btn btn-success" style="width: 112.5px;" th:if="${id ne null}" />
+								<input class="form-control" id="inputId" type="hidden" th:attr="name='id'" th:value="${id eq null ? null : id}" />
+								<input class="form-control" id="modifiedBy" type="hidden" th:attr="name='modifiedBy'" th:value="${#httpServletRequest.remoteUser}" />
+								
+								<a th:href="@{/services}" class="btn btn-default" style="width:112.5px; margin-right:26px; color:#222222; background-color:#ffffff; border-color:#222222;"><span th:utext="#{button.back}"></span></a>
+								
+								<a th:href="@{/service-add}" class="btn btn-default" style="width:112.5px; margin-right:10px;" th:if="${id eq null}"><span th:utext="#{button.clear}"></span></a>
+								<input type="submit" th:value="#{button.create}" class="btn btn-success" style="width:112.5px;" th:if="${id eq null}" />
+								
+								<a th:href="@{/service(id=${id})}" class="btn btn-default" style="width:112.5px; margin-right:10px;" th:if="${id ne null}"><span th:utext="#{button.clear}"></span></a>
+								<input type="submit" th:value="#{button.update}" class="btn btn-success" style="width:112.5px;" th:if="${id ne null}" />
 							</div>
 						</div>
 					</fieldset>
 				</form>
 			</div>
 			<footer>
-				<div th:replace="fragments/footer :: footer">&copy; 2017 Invoices</div>
+				<div th:replace="fragments/footer :: footer"><span th:utext="#{invoice.footer}"></span></div>
 			</footer>
 		</div>
+	
+		<form th:action="@{/service-remove}" method="get">
+			<div class="modal fade" id="serviceRemove" tabindex="-1" role="dialog" aria-labelledby="serviceRemoveLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<span style="font-size: x-large; font-weight: 500;" th:utext="#{service.remove}"></span>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<div class="form-group">
+								<span th:utext="#{service.remove.message}"></span>
+								<input id="service-id" type="hidden" class="form-control" th:attr="name='id'" />
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal" style="width: 112.5px;">
+								<span th:utext="#{button.cancel}"></span>
+							</button>
+							<button type="submit" class="btn btn-primary" style="width: 112.5px;">
+								<span th:utext="#{button.ok}"></span>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	
+		<script type="text/javascript">
+			$('#serviceRemove').on('show.bs.modal', function(event) {
+				var button = $(event.relatedTarget) // Button that triggered the modal
+				var id = button.data("id")
+				//var recipient = button.data('whatever') // Extract info from data-* attributes
+				// If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+				// Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+				var modal = $(this)
+				modal.find('.modal-body #service-id').val(id)
+			})
+		</script>
 	</body>
 </html>

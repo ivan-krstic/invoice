@@ -11,6 +11,7 @@ public class InvoiceCreateForm {
 	private List<Integer> inputServiceId = new ArrayList<>();
 	private List<Double> inputQuantity = new ArrayList<>();
 	private Date invoiceDate;
+	private String modifiedBy;
 	
 	public InvoiceCreateForm() {
 	}
@@ -55,10 +56,18 @@ public class InvoiceCreateForm {
 		this.invoiceDate = invoiceDate;
 	}
 
+	public String getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(String modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
+
 	@Override
 	public String toString() {
 		return "\"InvoiceCreateForm\": {\n\t\"clientId\": \"" + clientId + "\",\n\t\"number\": \"" + number
 				+ "\",\n\t\"inputServiceId\": \"" + inputServiceId + "\",\n\t\"inputQuantity\": \"" + inputQuantity
-				+ "\",\n\t\"invoiceDate\": \"" + invoiceDate + "\"\n}";
+				+ "\",\n\t\"invoiceDate\": \"" + invoiceDate + "\",\n\t\"modifiedBy\": \"" + modifiedBy + "\"\n}";
 	}
 }

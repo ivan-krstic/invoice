@@ -16,6 +16,7 @@ import me.krstic.repository.MeasurementRepository;
 @Service
 public class MeasurementService {
 
+	@SuppressWarnings("unused")
 	private static final Logger log = LoggerFactory.getLogger(MeasurementService.class);
 	
 	@Autowired
@@ -32,11 +33,18 @@ public class MeasurementService {
 		return measurementRepository.findAll(new PageRequest(page, size, Direction.ASC, "name"));
 	}
 	
+	public Measurement findById(int id) {
+		return measurementRepository.findOne(id);
+	}
+	
 	public Measurement save(Measurement measurement) {
 		return measurementRepository.save(measurement);
 	}
 	
-	public Measurement findById(int id) {
-		return measurementRepository.findOne(id);
+	public void delete(int id) {
+		Measurement measurement = findById(id);
+		measurement.setStatus(0);
+		
+		save(measurement);
 	}
 }

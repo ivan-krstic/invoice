@@ -33,6 +33,9 @@ public class Invoice {
 	private Double totalWithoutTax;
 	private Double tax;
 	private Double total;
+	@ManyToOne
+	@JoinColumn(name = "OWNER_ID")
+	private Owner owner;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date modifiedOn;
 	@ManyToOne
@@ -130,6 +133,14 @@ public class Invoice {
 		this.total = total;
 	}
 
+	public Owner getOwner() {
+		return owner;
+	}
+
+	public void setOwner(Owner owner) {
+		this.owner = owner;
+	}
+
 	public Date getModifiedOn() {
 		return modifiedOn;
 	}
@@ -151,7 +162,7 @@ public class Invoice {
 		return "\"Invoice\": {\n\t\"id\": \"" + id + "\",\n\t\"number\": \"" + number + "\",\n\t\"status\": \"" + status
 				+ "\",\n\t\"client\": \"" + client + "\",\n\t\"invoiceItems\": \"" + invoiceItems
 				+ "\",\n\t\"invoiceDate\": \"" + invoiceDate + "\",\n\t\"totalWithoutTax\": \"" + totalWithoutTax
-				+ "\",\n\t\"tax\": \"" + tax + "\",\n\t\"total\": \"" + total + "\",\n\t\"modifiedOn\": \"" + modifiedOn
-				+ "\",\n\t\"modifiedBy\": \"" + modifiedBy + "\"\n}";
+				+ "\",\n\t\"tax\": \"" + tax + "\",\n\t\"total\": \"" + total + "\",\n\t\"owner\": \"" + owner
+				+ "\",\n\t\"modifiedOn\": \"" + modifiedOn + "\",\n\t\"modifiedBy\": \"" + modifiedBy + "\"\n}";
 	}
 }

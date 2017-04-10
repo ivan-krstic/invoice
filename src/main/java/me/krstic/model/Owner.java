@@ -11,7 +11,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-public class Company {
+public class Owner {
 
 	@Id
 	@GeneratedValue
@@ -35,10 +35,10 @@ public class Company {
 	@JoinColumn(name = "USER_ID")
 	private User modifiedBy;
 	
-	public Company() {
+	public Owner() {
 	}
 
-	public Company(String name, String zipCode, String city, String street, String houseNumber, String email,
+	public Owner(String name, String zipCode, String city, String street, String houseNumber, String email,
 			String phone, String facebook, String twitter, String bankAccount, String bankName, String taxNumber,
 			User modifiedBy) {
 		this.name = name;
@@ -188,7 +188,7 @@ public class Company {
 
 	@Override
 	public String toString() {
-		return "\"Company\": {\n\t\"id\": \"" + id + "\",\n\t\"name\": \"" + name + "\",\n\t\"zipCode\": \"" + zipCode
+		return "\"Owner\": {\n\t\"id\": \"" + id + "\",\n\t\"name\": \"" + name + "\",\n\t\"zipCode\": \"" + zipCode
 				+ "\",\n\t\"city\": \"" + city + "\",\n\t\"street\": \"" + street + "\",\n\t\"houseNumber\": \""
 				+ houseNumber + "\",\n\t\"email\": \"" + email + "\",\n\t\"phone\": \"" + phone
 				+ "\",\n\t\"facebook\": \"" + facebook + "\",\n\t\"twitter\": \"" + twitter

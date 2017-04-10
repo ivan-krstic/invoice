@@ -4,7 +4,10 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+
+import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +19,6 @@ import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 
 import me.krstic.model.Invoice;
-import me.krstic.model.InvoiceCounter;
 import me.krstic.model.InvoiceItem;
 import me.krstic.repository.InvoiceRepository;
 import me.krstic.specification.InvoiceSearchSpecification;
@@ -39,6 +41,8 @@ public class InvoiceService {
 	private InvoiceService invoiceService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private CounterService counterService;
 	
 	public InvoiceService() {
 	}
@@ -66,11 +70,12 @@ public class InvoiceService {
 		return invoiceRepository.save(invoice);
 	}
 	
+	@Transactional
 	public void createOrUpdate(InvoiceCreateForm invoiceCreateForm) {
 		List<Integer> serviceIds = invoiceCreateForm.getInputServiceId();
 		List<Double> quantites = invoiceCreateForm.getInputQuantity();
 		
-		String invoiceNumber = InvoiceCounter.getInstance().create()+"/"+Integer.parseInt(new SimpleDateFormat("yyyy").format(invoiceCreateForm.getInvoiceDate()));
+		String invoiceNumber = counterService.generateSequenceNumber("invoice")+"/"+Integer.parseInt(new SimpleDateFormat("yyyy").format(invoiceCreateForm.getInvoiceDate()));
 		
 		log.info("Invoice Number: " + invoiceNumber);
 		
@@ -99,5 +104,9 @@ public class InvoiceService {
 			invoice.setTotal(total);
 			invoice = invoiceService.save(invoice);
 		}
+	}
+	
+	public String getInvoiceNumber() {
+		return counterService.getSequenceNumber("invoice")+"/"+(new SimpleDateFormat("yyyy").format(new Date()));
 	}
 }

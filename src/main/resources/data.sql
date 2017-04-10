@@ -1,6 +1,6 @@
 INSERT INTO user (username, password, name, role, status) VALUES ('ice', 'ice', 'Ivan Krstic', 'ROLE_ADMIN', 1);
 
-INSERT INTO invoice_counter (value) VALUES (2);
+INSERT INTO counter (name, value) VALUES ('invoice', 2);
 
 INSERT INTO measurement (name, desciption, status) VALUES ('m', 'Duzni metar', 1);
 INSERT INTO measurement (name, desciption, status) VALUES ('m²', 'Kvadratni metar', 1);
@@ -13,13 +13,13 @@ INSERT INTO client (name, zip_code, city, street, house_number, email, phone, st
 INSERT INTO client (name, zip_code, city, street, house_number, status) VALUES ('Draža Krstić', '12000', 'Požarevac', 'Čede Vasovića', '45/12', 1);
 INSERT INTO client (name, zip_code, city, street, house_number, status) VALUES ('Bojan Krstić', '74613', 'Öhringen', 'Rathausstraße', '10', 1);
 
-INSERT INTO company (name, zip_code, city, street, house_number, email, phone, status) VALUES ('Bojan Krstić', '74613', 'Öhringen', 'Rathausstraße', '10', 'fliesenleger.sitic@gmail.com', '+49 (0) 162-95-449-252', 1);
+INSERT INTO owner (name, zip_code, city, street, house_number, email, phone, status) VALUES ('Bojan Krstić', '74613', 'Öhringen', 'Rathausstraße', '10', 'fliesenleger.sitic@gmail.com', '+49 (0) 162-95-449-252', 1);
 
 INSERT INTO service (name, price, measurement_id, status) VALUES ('Fugovanje pločica', 10.15, 2, 1);
 INSERT INTO service (name, price, measurement_id, status) VALUES ('Postavljanje pločica', 9.95, 2, 1);
 
-INSERT INTO invoice (number, status, CLIENT_ID) VALUES ('01/2017', 1, 1);
-INSERT INTO invoice (number, status, CLIENT_ID) VALUES ('02/2017', 1, 1);
+INSERT INTO invoice (number, status, CLIENT_ID, OWNER_ID) VALUES ('1/2017', 1, 1, 1);
+INSERT INTO invoice (number, status, CLIENT_ID, OWNER_ID) VALUES ('2/2017', 1, 1, 1);
 
 INSERT INTO invoice_item (INVOICE_ID, SERVICE_ID, quantity) VALUES (1, 1, 2);
 INSERT INTO invoice_item (INVOICE_ID, SERVICE_ID, quantity) VALUES (1, 2, 4);

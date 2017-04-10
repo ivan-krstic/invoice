@@ -25,10 +25,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import me.krstic.configuration.InvoiceConfiguration;
 import me.krstic.model.Client;
 import me.krstic.model.Invoice;
-
+import me.krstic.model.Owner;
 import me.krstic.service.ClientService;
 import me.krstic.service.InvoiceService;
 import me.krstic.service.JasperReportService;
+import me.krstic.service.OwnerService;
 import me.krstic.service.ServiceService;
 import me.krstic.vo.AutocompleteData;
 import me.krstic.vo.InvoiceCreateForm;
@@ -50,6 +51,8 @@ public class InvoiceController {
 	private ServiceService serviceService;
 	@Autowired
 	private ClientService clientService;
+	@Autowired
+	private OwnerService ownerService;
 	@Autowired
 	private JasperReportService jasperReportService;
 	
@@ -115,16 +118,23 @@ public class InvoiceController {
 	@RequestMapping(value = "/invoice-create", method = RequestMethod.GET)
 	public String invoiceCreateForm(Model model) {
 		List<Client> clients = clientService.findAll();
-
+		Owner owner = ownerService.getOwner();
+		
 		List<AutocompleteData> clientData = new ArrayList<AutocompleteData>();
 		
 		for (Client client : clients) {
 			clientData.add(new AutocompleteData(client.getName() + ", " + client.getZipCode() + " " + client.getCity() + ", " + client.getStreet(), client.getId().toString()));
 		}
 		
-		model.addAttribute("invoiceCreateForm", new InvoiceCreateForm());		
+		model.addAttribute("invoiceCreateForm", new InvoiceCreateForm());
+		model.addAttribute("invoiceNumber", invoiceService.getInvoiceNumber());
 		model.addAttribute("services", serviceService.findAll());
 		model.addAttribute("clients", clientData);
+		model.addAttribute("ownerName", owner.getName());
+		model.addAttribute("ownerCity", owner.getZipCode() + " " + owner.getCity());
+		model.addAttribute("ownerStreet", owner.getStreet() + " " + owner.getHouseNumber());
+		
+		log.info("Owner: " + owner);
 		
 		return "invoice-create";
 	}
@@ -136,28 +146,11 @@ public class InvoiceController {
 		
 		invoiceService.createOrUpdate(invoiceCreateForm);
 
-/*		
-		Invoice invoice = new Invoice(
-				invoiceCreateForm.getNumber().isEmpty() ? null : invoiceCreateForm.getNumber(),
-				1,
-				clientService.findById(invoiceCreateForm.getClientId()),
-				null,
-				invoiceCreateForm.getInvoiceDate());
-		
-		*/
-		
-/*
-		if (invoice != null) {
-			invoiceService.save(invoice);
-		}
-*/
 		return "redirect:/invoices";
 	}
 	
 	@RequestMapping(value = "/invoice-generate", method = RequestMethod.GET)
 	public void generateReport(@RequestParam(value = "id") int id, HttpServletResponse response) throws IOException, JRException, NamingException, SQLException {
-		Invoice invoice = invoiceService.findById(id);
-		
 		Map<String, Object> parameters = new HashedMap();
 		parameters.put("id", id);
 		

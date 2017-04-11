@@ -14,27 +14,41 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
+@XmlRootElement(name = "invoice")
+@XmlAccessorType(XmlAccessType.NONE)
 public class Invoice {
 
 	@Id
 	@GeneratedValue
 	private Integer id;
+	@XmlElement
 	private String number;
 	private Integer status;
 	@ManyToOne
 	@JoinColumn(name = "CLIENT_ID")
+	@XmlElement
 	private Client client;
 	@OneToMany(mappedBy = "invoice", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@XmlElement
 	private List<InvoiceItem> invoiceItems = new ArrayList<>();
 	@Temporal(TemporalType.DATE)
+	@XmlElement
 	private Date invoiceDate;
+	@XmlElement
 	private Double totalWithoutTax;
+	@XmlElement
 	private Double tax;
+	@XmlElement
 	private Double total;
 	@ManyToOne
 	@JoinColumn(name = "OWNER_ID")
+	@XmlElement
 	private Owner owner;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date modifiedOn;

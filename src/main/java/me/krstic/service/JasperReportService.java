@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.util.Map;
 
 import javax.naming.NamingException;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
@@ -50,10 +49,11 @@ public class JasperReportService {
 		return (JasperReport) JRLoader.loadObjectFromFile(invoiceJasperFile.getPath());
 	}
 	
-	public void generateInvoicePDF(HttpServletResponse response, Map<String, Object> parameters, JasperReport jasperReport)throws JRException, NamingException, SQLException, IOException {		
-		byte[] bytes = null;
+	public byte[] generateInvoicePDF(HttpServletResponse response, Map<String, Object> parameters, JasperReport jasperReport)throws JRException, NamingException, SQLException, IOException {		
 		parameters.put("logo", jasperLogo.getInputStream());
-		bytes = JasperRunManager.runReportToPdf(jasperReport, parameters, datasource.getConnection());
+		return JasperRunManager.runReportToPdf(jasperReport, parameters, datasource.getConnection());
+		
+/*		bytes = JasperRunManager.runReportToPdf(jasperReport, parameters, datasource.getConnection());
 		response.reset();
 		response.resetBuffer();
 		response.setContentType("application/pdf");
@@ -62,6 +62,7 @@ public class JasperReportService {
 		ouputStream.write(bytes, 0, bytes.length);
 		ouputStream.flush();
 		ouputStream.close();
+*/
 	} 
 	
 	

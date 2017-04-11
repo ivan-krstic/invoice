@@ -15,6 +15,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,6 +34,7 @@ import me.krstic.service.InvoiceService;
 import me.krstic.service.JasperReportService;
 import me.krstic.service.OwnerService;
 import me.krstic.service.ServiceService;
+import me.krstic.service.XmlService;
 import me.krstic.vo.AutocompleteData;
 import me.krstic.vo.InvoiceCreateForm;
 import me.krstic.vo.InvoiceSearchForm;
@@ -53,6 +57,8 @@ public class InvoiceController {
 	private ClientService clientService;
 	@Autowired
 	private OwnerService ownerService;
+	@Autowired
+	private XmlService xmlService;
 	@Autowired
 	private JasperReportService jasperReportService;
 	
@@ -148,7 +154,8 @@ public class InvoiceController {
 
 		return "redirect:/invoices";
 	}
-	
+
+/*
 	@RequestMapping(value = "/invoice-generate", method = RequestMethod.GET)
 	public void generateReport(@RequestParam(value = "id") int id, HttpServletResponse response) throws IOException, JRException, NamingException, SQLException {
 		Map<String, Object> parameters = new HashedMap();
@@ -158,5 +165,37 @@ public class InvoiceController {
 		
 		jasperReportService.generateInvoicePDF(response, parameters, jasperReport);
 	}
+*/
+	@RequestMapping(value = "/invoice-pdf", method = RequestMethod.GET)
+	public HttpEntity<byte[]> getPdfById(@RequestParam(value = "id") int id, HttpServletResponse response) throws IOException, JRException, NamingException, SQLException {
+		Map<String, Object> parameters = new HashedMap();
+		parameters.put("id", id);
+		
+		JasperReport jasperReport = jasperReportService.getFile();
+		
+		byte[] documentBody = jasperReportService.generateInvoicePDF(response, parameters, jasperReport);
+		
+		HttpHeaders header = new HttpHeaders();
+		
+		header.setContentType(MediaType.TEXT_XML);
+		header.setContentLength(documentBody.length);
+		header.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=invoice_" + id + ".pdf");
+		
+		return new HttpEntity<byte[]>(documentBody, header);
+	}
 
+	@RequestMapping(value = "/invoice-xml", method = RequestMethod.GET, params = {"id"})
+	public HttpEntity<byte[]> getXmlById(@RequestParam int id) {
+		Invoice invoice = invoiceService.findById(id);
+		
+		HttpHeaders header = new HttpHeaders();
+		
+		byte[] documentBody = xmlService.createInvoiceXml(invoice).getBytes();
+		
+		header.setContentType(MediaType.TEXT_XML);
+		header.setContentLength(documentBody.length);
+		header.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=invoice_" + id + ".xml");
+		
+		return new HttpEntity<byte[]>(documentBody, header);
+	}
 }

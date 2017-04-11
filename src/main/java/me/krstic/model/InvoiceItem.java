@@ -7,8 +7,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PostLoad;
 import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
+@XmlRootElement(name = "invoiceItem")
+@XmlAccessorType(XmlAccessType.NONE)
 public class InvoiceItem {
 
 	@Id
@@ -19,9 +25,12 @@ public class InvoiceItem {
 	private Invoice invoice;
 	@ManyToOne
 	@JoinColumn(name = "SERVICE_ID")
+	@XmlElement
 	private Service service;
+	@XmlElement
 	private Double quantity;
 	@Transient
+	@XmlElement
 	private Double total;
 	
 	public InvoiceItem() {
@@ -79,7 +88,7 @@ public class InvoiceItem {
 
 	@Override
 	public String toString() {
-		return "\"InvoiceItem\": {\n\t\"id\": \"" + id + "\",\n\t\"invoice\": \"" + invoice + "\",\n\t\"service\": \""
+		return "\"InvoiceItem\": {\n\t\"id\": \"" + id + "\",\n\t\"service\": \""
 				+ service + "\",\n\t\"quantity\": \"" + quantity + "\",\n\t\"total\": \"" + total + "\"\n}";
 	}
 }

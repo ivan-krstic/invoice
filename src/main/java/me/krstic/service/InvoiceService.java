@@ -1,9 +1,7 @@
 package me.krstic.service;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import me.krstic.model.Invoice;
 import me.krstic.model.InvoiceItem;
+import me.krstic.model.Owner;
 import me.krstic.repository.InvoiceRepository;
 import me.krstic.specification.InvoiceSearchSpecification;
 import me.krstic.vo.InvoiceCreateForm;
@@ -41,6 +40,8 @@ public class InvoiceService {
 	private InvoiceService invoiceService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private OwnerService ownerService;
 	@Autowired
 	private CounterService counterService;
 	
@@ -74,6 +75,11 @@ public class InvoiceService {
 	public void createOrUpdate(InvoiceCreateForm invoiceCreateForm) {
 		List<Integer> serviceIds = invoiceCreateForm.getInputServiceId();
 		List<Double> quantites = invoiceCreateForm.getInputQuantity();
+		if (invoiceCreateForm.getInvoiceDate() == null) {
+			invoiceCreateForm.setInvoiceDate(new Date());
+		}
+		Owner owner = ownerService.getOwner(); 
+		log.info("Owner: " + owner);
 		
 		String invoiceNumber = counterService.generateSequenceNumber("invoice")+"/"+Integer.parseInt(new SimpleDateFormat("yyyy").format(invoiceCreateForm.getInvoiceDate()));
 		
@@ -102,6 +108,7 @@ public class InvoiceService {
 			}
 			invoice.setInvoiceItems(invoiceItems);
 			invoice.setTotal(total);
+			invoice.setOwner(owner);
 			invoice = invoiceService.save(invoice);
 		}
 	}

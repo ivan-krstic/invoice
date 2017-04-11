@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
-<!-- 2017-04-04T14:29:19 -->
+<!-- 2017-04-11T14:55:25 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="invoice" pageWidth="595" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="567" leftMargin="14" rightMargin="14" topMargin="14" bottomMargin="14" uuid="ad931d6c-3f3d-4e2d-b856-23bdea0ffc59">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="H2 in-memory"/>
@@ -89,9 +89,33 @@ WHERE INVOICE_ID = $P!{id}]]>
 	<parameter name="id" class="java.lang.Integer"/>
 	<parameter name="logo" class="java.io.InputStream"/>
 	<queryString>
-		<![CDATA[SELECT i.*, c.name, c.zip_code, c.city, c.street, c.house_number
+		<![CDATA[SELECT
+	i.*,
+	c.name AS client_name,
+	c.zip_code AS client_zip_code,
+	c.city AS client_city,
+	c.street AS client_street,
+	c.house_number AS client_house_number,
+	c.email AS client_email,
+	c.phone AS client_phone,
+	c.bank_account AS client_bank_account,
+	c.bank_name AS client_bank_name,
+	c.tax_number AS client_tax_number,
+	o.name AS owner_name,
+	o.zip_code AS owner_zip_code,
+	o.city AS owner_city,
+	o.street AS owner_street,
+	o.house_number AS owner_house_number,
+	o.email AS owner_email,
+	o.phone AS owner_phone,
+	o.facebook AS owner_facebook,
+	o.twitter AS owner_twitter,
+	o.bank_account AS owner_bank_account,
+	o.bank_name AS owner_bank_name,
+	o.tax_number AS owner_tax_number
 FROM invoice  i
-LEFT JOIN client c ON (i.client_id = c.id)
+LEFT JOIN client c ON (i.CLIENT_ID = c.id)
+LEFT JOIN owner o ON (i.OWNER_ID = o.id)
 WHERE i.ID = $P!{id}]]>
 	</queryString>
 	<field name="ID" class="java.lang.Integer"/>
@@ -103,59 +127,100 @@ WHERE i.ID = $P!{id}]]>
 	<field name="TOTAL" class="java.lang.Double"/>
 	<field name="MODIFIED_ON" class="java.util.Date"/>
 	<field name="CLIENT_ID" class="java.lang.Integer"/>
-	<field name="NAME" class="java.lang.String"/>
-	<field name="ZIP_CODE" class="java.lang.String"/>
-	<field name="CITY" class="java.lang.String"/>
-	<field name="STREET" class="java.lang.String"/>
-	<field name="HOUSE_NUMBER" class="java.lang.String"/>
+	<field name="CLIENT_NAME" class="java.lang.String"/>
+	<field name="CLIENT_ZIP_CODE" class="java.lang.String"/>
+	<field name="CLIENT_CITY" class="java.lang.String"/>
+	<field name="CLIENT_STREET" class="java.lang.String"/>
+	<field name="CLIENT_HOUSE_NUMBER" class="java.lang.String"/>
+	<field name="CLIENT_EMAIL" class="java.lang.String"/>
+	<field name="CLIENT_PHONE" class="java.lang.String"/>
+	<field name="CLIENT_BANK_ACCOUNT" class="java.lang.String"/>
+	<field name="CLIENT_BANK_NAME" class="java.lang.String"/>
+	<field name="CLIENT_TAX_NUMBER" class="java.lang.String"/>
+	<field name="OWNER_NAME" class="java.lang.String"/>
+	<field name="OWNER_ZIP_CODE" class="java.lang.String"/>
+	<field name="OWNER_CITY" class="java.lang.String"/>
+	<field name="OWNER_STREET" class="java.lang.String"/>
+	<field name="OWNER_HOUSE_NUMBER" class="java.lang.String"/>
+	<field name="OWNER_EMAIL" class="java.lang.String"/>
+	<field name="OWNER_PHONE" class="java.lang.String"/>
+	<field name="OWNER_FACEBOOK" class="java.lang.String"/>
+	<field name="OWNER_TWITTER" class="java.lang.String"/>
+	<field name="OWNER_BANK_ACCOUNT" class="java.lang.String"/>
+	<field name="OWNER_BANK_NAME" class="java.lang.String"/>
+	<field name="OWNER_TAX_NUMBER" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<pageHeader>
-		<band height="190" splitType="Stretch">
+		<band height="215" splitType="Stretch">
 			<textField isBlankWhenNull="true">
-				<reportElement x="28" y="116" width="261" height="17" uuid="b686d9d1-b704-4293-a879-226e19e83ecf">
+				<reportElement x="28" y="116" width="292" height="17" uuid="b686d9d1-b704-4293-a879-226e19e83ecf">
 					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font pdfEncoding="Cp1250"/>
 					<paragraph leftIndent="0"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{NAME}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{CLIENT_NAME}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="28" y="170" width="511" height="20" uuid="64418724-5bb1-4735-85ff-ab2e3947a5b1"/>
+				<reportElement x="28" y="180" width="511" height="20" uuid="64418724-5bb1-4735-85ff-ab2e3947a5b1"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="28" y="133" width="261" height="17" uuid="00b718bb-ae28-433c-8017-1fad7d60d33c">
+				<reportElement x="28" y="133" width="292" height="17" uuid="00b718bb-ae28-433c-8017-1fad7d60d33c">
 					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
 				</reportElement>
 				<textElement verticalAlignment="Middle">
 					<font pdfEncoding="Cp1250"/>
 					<paragraph leftIndent="0"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{STREET}+" "+$F{HOUSE_NUMBER}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{CLIENT_STREET}+" "+$F{CLIENT_HOUSE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="28" y="150" width="261" height="17" uuid="6628e4ec-ba10-4505-ad74-817dc00e861e">
+				<reportElement x="28" y="150" width="292" height="17" uuid="6628e4ec-ba10-4505-ad74-817dc00e861e">
 					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
 				</reportElement>
 				<textElement verticalAlignment="Middle">
-					<font pdfEncoding="Cp1250"/>
+					<font fontName="SansSerif" pdfEncoding="Cp1250"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{ZIP_CODE}+" "+$F{CITY}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{CLIENT_ZIP_CODE}+" "+$F{CLIENT_CITY}]]></textFieldExpression>
 			</textField>
 			<image onErrorType="Blank">
 				<reportElement x="28" y="11" width="468" height="105" uuid="67f42fb6-7196-4c5e-b4d4-b9a1ac6a6838"/>
 				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
 			</image>
+			<textField isBlankWhenNull="true">
+				<reportElement x="320" y="116" width="219" height="17" uuid="0b0b70e9-4efe-4947-a37f-13fd9f9dfdfe">
+					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OWNER_NAME}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="320" y="133" width="219" height="17" uuid="18bd4d07-453b-41b0-84cc-4295ab6c0f38">
+					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OWNER_STREET} + " " + $F{OWNER_HOUSE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="320" y="150" width="219" height="17" uuid="65ba871e-8931-441a-a80b-8b6e41f21b00">
+					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OWNER_ZIP_CODE} + " " + $F{OWNER_CITY}]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageHeader>
-	<columnHeader>
-		<band height="25" splitType="Stretch"/>
-	</columnHeader>
 	<detail>
 		<band height="286" splitType="Stretch">
 			<componentElement>
@@ -315,7 +380,7 @@ WHERE i.ID = $P!{id}]]>
 				</jr:table>
 			</componentElement>
 			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" x="380" y="37" width="159" height="17" uuid="f1241243-fe44-4ca8-9c3a-462417b06f99">
+				<reportElement positionType="Float" x="390" y="37" width="149" height="17" uuid="f1241243-fe44-4ca8-9c3a-462417b06f99">
 					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
 				</reportElement>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
@@ -324,31 +389,31 @@ WHERE i.ID = $P!{id}]]>
 				<textFieldExpression><![CDATA[$F{TOTAL_WITHOUT_TAX}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" x="380" y="54" width="159" height="17" uuid="382b6cff-769e-420e-8d61-3cada0856203"/>
+				<reportElement positionType="Float" x="390" y="54" width="149" height="17" uuid="382b6cff-769e-420e-8d61-3cada0856203"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{TAX}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" x="380" y="71" width="159" height="17" uuid="8ab2d00c-e2e6-4ecf-953e-17342f2e327b"/>
+				<reportElement positionType="Float" x="390" y="71" width="149" height="17" uuid="8ab2d00c-e2e6-4ecf-953e-17342f2e327b"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{TOTAL}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement positionType="Float" x="250" y="37" width="130" height="17" uuid="3cf08b92-28ad-4452-a241-3f38e02db3bd">
+				<reportElement positionType="Float" x="320" y="37" width="70" height="17" uuid="3cf08b92-28ad-4452-a241-3f38e02db3bd">
 					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
 				</reportElement>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Netto]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="250" y="54" width="130" height="17" uuid="551adb41-a8e6-45aa-ae5a-4ae1598b4849"/>
+				<reportElement positionType="Float" x="320" y="54" width="70" height="17" uuid="551adb41-a8e6-45aa-ae5a-4ae1598b4849"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[MwSt. 19%]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="250" y="71" width="130" height="17" uuid="43f05655-df97-42ba-8146-8cbe7acd537b"/>
+				<reportElement positionType="Float" x="320" y="71" width="70" height="17" uuid="43f05655-df97-42ba-8146-8cbe7acd537b"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
@@ -357,7 +422,7 @@ WHERE i.ID = $P!{id}]]>
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="54" splitType="Stretch">
+		<band height="65" splitType="Stretch">
 			<staticText>
 				<reportElement x="28" y="0" width="170" height="14" uuid="c1bb18fe-fcb9-43b1-ab8b-75f123f80c40">
 					<property name="com.jaspersoft.studio.unit.width" value="mm"/>
@@ -398,8 +463,35 @@ WHERE i.ID = $P!{id}]]>
 				<textElement>
 					<font size="8"/>
 				</textElement>
-				<text><![CDATA[te:]]></text>
+				<text><![CDATA[tel:]]></text>
 			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="250" y="14" width="119" height="11" uuid="deaa963f-2eb2-439e-9cc9-22e0d10d0399">
+					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OWNER_EMAIL}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="250" y="25" width="119" height="11" uuid="62a64d73-3d45-4cb5-bdac-c97f76d4986e">
+					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OWNER_FACEBOOK}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="250" y="36" width="119" height="11" uuid="005d3585-27e5-4993-927f-0e86045a3593">
+					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OWNER_PHONE}]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageFooter>
 </jasperReport>

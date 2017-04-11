@@ -9,13 +9,20 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
+@XmlRootElement(name = "measurement")
+@XmlAccessorType(XmlAccessType.NONE)
 public class Measurement {
 
 	@Id
 	@GeneratedValue
 	private Integer id;
+	@XmlElement
 	private String name;
 	private String desciption;
 	private Integer status;

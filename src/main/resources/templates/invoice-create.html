@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 	<head>
+		<script type="text/javascript" th:src="@{/js/jquery.js}"></script>
+		<script type="text/javascript" th:src="@{/js/jquery.autocomplete.min.js}"></script>
+	
+		<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+		<script type="text/javascript" th:src="@{/js/bootstrap-datepicker.min.js}"></script>
+		<script type="text/javascript" th:src="@{/js/moment.js}"></script>
+		<script type="text/javascript" th:src="@{/js/transition.js}"></script>
+	
 		<link rel="stylesheet" media="screen" th:href="@{/css/bootstrap.min.css}" />
 		<link rel="stylesheet" media="screen" th:href="@{/css/bootstrap-datepicker.min.css}" />
 		<link rel="stylesheet" media="screen" th:href="@{/css/invoice-create.css}" />
-
-		<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
-		<script type="text/javascript" th:src="@{/js/jquery.js}"></script>
-		<script type="text/javascript" th:src="@{/js/jquery.autocomplete.min.js}"></script>
-		<script type="text/javascript" th:src="@{/js/moment.js}"></script>
-		<script type="text/javascript" th:src="@{/js/transition.js}"></script>
-		<script type="text/javascript" th:src="@{/js/bootstrap-datepicker.min.js}"></script>
 	</head>
 	<body>
 		<div th:replace="fragments/header :: header">
@@ -57,7 +58,7 @@
 							<div class="form-group">
 								<label for="inputOwnerName" class="col-lg-3 control-label"><span th:utext="#{owner.name}"></span></label>
 								<div class="col-lg-9">
-									<input id="inputOwnerName" type="text" class="form-control" th:placeholder="${ownerName}" disabled="disabled" />
+									<input id="inputOwnerName" type="text" class="form-control" th:placeholder="${ownerName}" readonly="readonly" />
 								</div>
 							</div>
 						</div>
@@ -73,7 +74,7 @@
 							<div class="form-group">
 								<label for="inputOwnerCity" class="col-lg-3 control-label"><span th:utext="#{owner.city}"></span></label>
 								<div class="col-lg-9">
-									<input id="inputOwnerCity" type="text" class="form-control" th:placeholder="${ownerCity}" disabled="disabled" />
+									<input id="inputOwnerCity" type="text" class="form-control" th:placeholder="${ownerCity}" readonly="readonly" />
 								</div>
 							</div>
 						</div>
@@ -81,7 +82,7 @@
 							<div class="form-group">
 								<label for="inputOwnerStreet" class="col-lg-3 control-label"><span th:utext="#{owner.street}"></span></label>
 								<div class="col-lg-9">
-									<input id="inputOwnerStreet" type="text" class="form-control" th:placeholder="${ownerStreet}" disabled="disabled" />
+									<input id="inputOwnerStreet" type="text" class="form-control" th:placeholder="${ownerStreet}" readonly="readonly" />
 								</div>
 							</div>
 						</div>
@@ -163,8 +164,10 @@
 		/*<![CDATA[*/
 		function showClient() {
 			var clients = /*[[${clients}]]*/null;
+			$("#inputClient").autocomplete("option", "minLength", 3);
 			$('#inputClient').autocomplete({
-			    lookup: clients,
+				minChars: 3,
+				lookup: clients,
 			    onSelect: function (suggestion) {
 			    	$("#inputClientId").val(suggestion.data);
 			    	console.log("name: " + suggestion.value + ", id: " + suggestion.data);
